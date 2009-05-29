@@ -3,7 +3,7 @@
 from django.views.generic.list_detail import object_list
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from apps.library.models import Piece, Composer, Arranger, Performance
-from firepython import logging
+#from firepython import logging
 import random
 
 extra = {'random_list': Piece.objects.order_by('?')[0:5],}
