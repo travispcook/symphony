@@ -1,0 +1,40 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ block.super }}: {{ object.date }}{% endblock %}
+{% block pagetitle %}{% endblock %}
+
+{% block content %}
+
+<div class="post">
+<div class="title">
+<h2 class="title">{{ object.date }}</h2>
+</div>
+<div class="entry">
+	<b>Where:</b>
+	{{ object.place|linebreaks }}
+	<b>Orchestras:</b>
+	<ul>
+	{% for orchestra in object.orchestra.all %}
+		<li>{{ orchestra.name }}</li>
+	{% endfor %}
+	</ul>
+	<b>Pieces:</b>
+	<ul>
+	{% for piece in object.piece.all %}
+		<li><a href="{{ piece.get_absolute_url }}">{{ piece }}</a></li>
+	{% endfor %}
+	</ul>
+	</li>
+</div>
+<div class="meta">
+	<p class="links">
+	<a href="{{ object.get_edit_url }}" class="comments">Edit this performance</a>
+	&nbsp;&nbsp;&nbsp;
+	<a href="prev" class="more" title="Previous Performance by Number">&lt; Previous</a>
+	<a href="next" class="more" title="Next Performance by Number">&nbsp;&nbsp;&nbsp;Next &gt;&nbsp;&nbsp;&nbsp;</a>
+	</p>
+</div>
+</div>
+
+{% endblock %}
+

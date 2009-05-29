@@ -1,0 +1,37 @@
+{% extends "library/base.html" %}
+
+{% block content %}
+
+{% for item in object_list %}
+<div class="post">
+<div class="title">
+<h2 class="title">{{ item.title }}</h2>
+<h3>{{ item.subtitle|default:" " }}</h3>
+</div>
+<div class="breadcrumb"><a href="{{ item.drawer.cabinet.group.get_absolute_url }}">{{ item.drawer.cabinet.group.shortname }}</a> &gt;&gt; <a href="{{ item.drawer.cabinet.get_absolute_url }}">{{ item.drawer.cabinet.number }}</a> &gt;&gt; <a href="{{ item.drawer.get_absolute_url }}">{{ item.drawer.number }}</a></div>
+<div class="entry">
+	<p>By 
+	{% for composer in item.composer.all %}
+	<a href="{{ composer.get_absolute_url }}">{{ composer }}</a>
+	{% if not forloop.last %} and {% endif %}
+	{% endfor %}
+	<br />
+	Catalog ID Number: <b>{{ item.id }}</b><br />
+</div>
+<div class="meta"><p class="links"><a href="{{ item.get_absolute_url }}" class="more">View this Item</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ item.get_edit_url }}" class="comments">Edit this Item</a></p></div>
+</div>
+{% endfor %}
+{% if page_obj.has_other_pages %}
+<div class="nav">
+{% if page_obj.has_previous %}
+<a class="box" href="." title="First Page">&lt;&lt;</a>
+<a class="box" href="?page={{ page_obj.previous_page_number }}" title ="Previous Page">Previous</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a class="box" href="?page={{ page_obj.next_page_number }}" title="Next Page">Next</a>
+<a class="box" href="?page=last" title="Last Page">&gt;&gt;</a>
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}
+

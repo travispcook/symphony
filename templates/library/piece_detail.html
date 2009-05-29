@@ -1,0 +1,45 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ block.super }}: {{ object.title }}{% endblock %}
+{% block pagetitle %}{% endblock %}
+
+{% block content %}
+
+<div class="post">
+<div class="title">
+<h2 class="title">{{ object.title }}</h2>
+<h3>{{ object.subtitle|default:" " }}</h3>
+</div>
+<div class="breadcrumb"><a href="{{ object.drawer.cabinet.group.get_absolute_url }}">{{ object.drawer.cabinet.group.shortname }}</a> &gt;&gt; <a href="{{ object.drawer.cabinet.get_absolute_url }}">{{ object.drawer.cabinet.number }}</a> &gt;&gt; <a href="{{ object.drawer.get_absolute_url }}">{{ object.drawer.number }}</a></div>
+<div class="entry">
+	<p>
+		By {% for composer in object.composer.all %}
+		<a href="{{ composer.get_absolute_url }}">{{ composer }}</a>
+		{% if not forloop.last %} and {% endif %}
+		{% endfor %}
+		<br />
+		{% if object.arranger %}Arranged by {% for arranger in object.arranger.all %}
+			<a href="{{ arranger.get_absolute_url }}">{{ arranger }}</a><br />
+			{% if not forloop.last %} and {% endif %}
+		{% endfor %}{% endif %}
+		Catalog ID Number: <b>{{ object.id }}</b><br />
+		{% if object.score %}Score: {{ object.score }}<br />{% endif %}
+		{% if object.difficutly %}Difficulty: {{ object.difficulty }}<br />{% endif %}
+		{% if object.comment %}<b>Comment:</b> {{ object.comment|linebreaksbr }}<br />{% endif %}
+		{% for performance in object.performance_set.all %}
+			Performed by {% for orchestra in performance.orchestra.all %}{{ orchestra.name }}{% if not forloop.last %} and {% endif %}{% endfor %} on <a href="{{ performance.get_absolute_url }}">{{ performance.date }}</a>.<br />
+		{% endfor %}
+	</p>
+</div>
+<div class="meta">
+	<p class="links">
+	<a href="{{ object.get_edit_url }}" class="comments">Edit this piece</a>
+	&nbsp;&nbsp;&nbsp;
+	<a href="prev" class="more" title="Previous Item by Number">&lt; Previous</a>
+	<a href="next" class="more" title="Next Item by Number">&nbsp;&nbsp;&nbsp;Next &gt;&nbsp;&nbsp;&nbsp;</a>
+	</p>
+</div>
+</div>
+
+{% endblock %}
+

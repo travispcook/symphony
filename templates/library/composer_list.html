@@ -1,0 +1,35 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ block.super }}: All Composers{% endblock %}
+
+{% block content %}
+
+{% for composer in object_list %}
+<div class="post">
+<div class="title">
+<h2 class="title">{{ composer }}</h2>
+</div>
+<div class="entry">
+	<ul> 
+	{% for piece in composer.piece_set.all %}
+	<li><a href="{{ piece.get_absolute_url }}">{{ piece.title }}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+<div class="meta"><p class="links"><a href="{{ composer.get_absolute_url }}" class="more">View this Composer</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ composer.get_edit_url }}" class="comments">Edit this Composer</a></p></div>
+</div>
+{% endfor %}
+{% if page_obj.has_other_pages %}
+<div class="nav">
+{% if page_obj.has_previous %}
+<a class="box" href="?page=1">&lt;&lt;</a>
+<a class="box" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a class="box" href="?page={{ page_obj.next_page_number }}">Next</a>
+<a class="box" href="?page=last">&gt;&gt;</a>
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
