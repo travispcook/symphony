@@ -63,7 +63,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'firepython.django.FirePythonDjango',
 )
 
 ROOT_URLCONF = 'symphony.urls'
