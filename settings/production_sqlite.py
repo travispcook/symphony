@@ -4,19 +4,19 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('josh', 'josh@cellofellow.homelinux.net'),
+     ('Joshua Gardner', 'josh@cellofellow.homelinux.net'),
 )
 
 MANAGERS = ADMINS
 
 INTERNAL_IPS = ('127.0.0.1','192.168.0.2')
 
-DATABASE_ENGINE = 'mysql'		# 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'symphony'		# Or path to database file if using sqlite3.
-DATABASE_USER = 'symphony'		# Not used with sqlite3.
-DATABASE_PASSWORD = 'chautInRuAm8'	# Not used with sqlite3.
-DATABASE_HOST = ''			# Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''			# Set to empty string for default. Not used with sqlite3.
+DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_NAME = '/opt/django/symphony/database.sqlite'             # Or path to database file if using sqlite3.
+DATABASE_USER = ''             # Not used with sqlite3.
+DATABASE_PASSWORD = ''         # Not used with sqlite3.
+DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
