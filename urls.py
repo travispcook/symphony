@@ -10,5 +10,5 @@ urlpatterns = patterns('',
 	(r'^admin/(.*)', admin.site.root),
 
 	# My URLS:
-	(r'^', include('apps.library.urls')),
+	(r'^', include('library.urls')),
 )

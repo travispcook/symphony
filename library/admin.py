@@ -1,4 +1,4 @@
-from symphony.apps.library.models import\
+from library.models import\
 	Composer,\
 	Arranger,\
 	Piece,\

@@ -1,7 +1,4 @@
 from django.db import models
-from apps.search import register
-
-# Create your models here.
 
 class Composer(models.Model):
 	first_name = models.CharField('First Name', max_length=32)
@@ -12,14 +9,13 @@ class Composer(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('apps.library.views.composer_list', [str(self.id)])
+		return ('library.views.composer_list', [str(self.id)])
 	
 	def get_edit_url(self):
 		return '/admin/library/composer/%d/' % self.id
 	
 	class Meta:
 		ordering = ['last_name']
-register(Composer, fields=["first_name", "last_name"])
 
 class Arranger(models.Model):
 	first_name = models.CharField('First Name', max_length=32)
@@ -30,14 +26,13 @@ class Arranger(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('apps.library.views.arranger_list', [str(self.id)])
+		return ('library.views.arranger_list', [str(self.id)])
 	
 	def get_edit_url(self):
 		return '/admin/library/arranger/%d/' % self.id
 	
 	class Meta:
 		ordering = ['last_name']
-register(Arranger, fields=["first_name", "last_name"])
 
 DIFFICULTY_CHOICES = (
 	('0', 'Unknown'),
@@ -70,7 +65,6 @@ class Piece(models.Model):
 	
 	class Meta:
 		ordering = ['title']
-register(Piece, fields=["title", "subtitle", "comment"])
 	
 class ScoreType(models.Model):
 	name = models.CharField('Short Name', max_length=16)
@@ -88,7 +82,7 @@ class CabinetGroup(models.Model):
 		
 	@models.permalink
 	def get_absolute_url(self):
-		return ('apps.library.views.group_list', (), {'group_name': self.shortname})
+		return ('library.views.group_list', (), {'group_name': self.shortname})
 	
 	def get_edit_url(self):
 		return '/admin/library/cabinetgroup/%d/' % self.id
@@ -105,7 +99,7 @@ class Cabinet(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('apps.library.views.cabinet_list', (), {
+		return ('library.views.cabinet_list', (), {
 			'group_name': self.group.shortname,
 			'cabinet_id': str(int(self)),
 		})
@@ -125,7 +119,7 @@ class Drawer(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('apps.library.views.drawer_list', (), {
+		return ('library.views.drawer_list', (), {
 			'group_name': self.cabinet.group,
 			'cabinet_id': str(int(self.cabinet)),
 			'drawer_id': str(int(self))
@@ -140,7 +134,6 @@ class Orchestra(models.Model):
 	
 	def __unicode__(self):
 		return u"%s" % self.shortname
-register(Orchestra, fields=["shortname", "name"])
 
 class Performance(models.Model):
 	place = models.TextField('Place', max_length=1024)
