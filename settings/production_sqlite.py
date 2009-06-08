@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('josh', 'josh@cellofellow.homelinux.net'),
+     ('Joshua Gardner', 'josh@cellofellow.homelinux.net'),
 )
 
 MANAGERS = ADMINS
@@ -65,7 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'symphony.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -81,10 +81,5 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'symphony.apps.library',
-    'symphony.apps.search',
-)
-
-SEARCH_CRAWLERS = (
-	"search.crawlers.models.ModelCrawler",
+    'library',
 )
