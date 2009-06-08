@@ -3,9 +3,10 @@
 from django.views.generic.list_detail import object_list
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from library.models import Piece, Composer, Arranger, Performance
+from settings import URL_PREFIX
 import random
 
-extra = {'random_list': Piece.objects.order_by('?')[0:5],}
+extra = {'random_list': Piece.objects.order_by('?')[0:5], 'URL_PREFIX': URL_PREFIX}
 
 # Listing Views. These views wrap the object_list generic view.
 # Probably best to conglomerate all of these into one smart view.

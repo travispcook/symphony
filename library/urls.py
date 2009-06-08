@@ -1,40 +1,45 @@
 from django.conf.urls.defaults import *
 
 from library.models import Piece, Composer, Arranger, Performance
-randomlist = Piece.objects.order_by('?')[0:5]
+from settings import URL_PREFIX
+random_list = Piece.objects.order_by('?')[0:5]
+extra_context = {
+	'random_list': random_list,
+	'URL_PREFIX': URL_PREFIX
+}
 
 piece_dict = {
 	'queryset': Piece.objects.all(),
 	'paginate_by': 10,
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 composer_dict = {
 	'queryset': Composer.objects.order_by('last_name'),
 	'paginate_by': 10,
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 arranger_dict = {
 	'queryset': Arranger.objects.order_by('last_name'),
 	'paginate_by': 10,
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 piece_detail = {
 	'queryset': Piece.objects.all(),
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 performance_list = {
 	'queryset': Performance.objects.all(),
 	'paginate_by': 10,
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 performance_detail = {
 	'queryset': Performance.objects.all(),
-	'extra_context': {'random_list': randomlist},
+	'extra_context': extra_context,
 }
 
 urlpatterns = patterns('django.views.generic.list_detail',
