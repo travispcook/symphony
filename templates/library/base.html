@@ -15,7 +15,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>{% block title %}Music Library{% endblock %}</title>
-<link href="{{ MEDIA_URL }}default.css" rel="stylesheet" type="text/css" />
+<link href="{{ MEDIA_URL }}/default.css" rel="stylesheet" type="text/css" />
 {% block head %}{% endblock %}
 </head>
 <body>
@@ -29,7 +29,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		<ul>
 			{% block menu %}
 			<li class="active"><a href="/">Homepage</a></li>
-			<li><a href="/symphony/admin">Admin</a></li>
+			<li><a href="{{ URL_PREFIX }}/admin">Admin</a></li>
 			<li><a href="http://lincolnyouthsymphony.googlepages.com">Lincoln Youth Symphony</a></li>
 			{% endblock %}
 		</ul>
@@ -52,12 +52,12 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		<li>
 			<ul>
 			<h2><strong>Navigation Links</strong></h2>
-			<li><a href="/composer/">List all Composers</a></li>
-			<li><a href="/arranger/">List all Arrangers</a></li>
-			<li><a href="/performance/">List all Performances</a></li>
-			<li><a href="/piece/random">Random Piece</a></li>
-			<li><a href="/composer/random">Random Composer</a></li>
-			<li><a href="/arranger/random">Random Arranger</a></li>
+			<li><a href="{{ URL_PREFIX }}/composer/">List all Composers</a></li>
+			<li><a href="{{ URL_PREFIX }}/arranger/">List all Arrangers</a></li>
+			<li><a href="{{ URL_PREFIX }}/performance/">List all Performances</a></li>
+			<li><a href="{{ URL_PREFIX }}/piece/random">Random Piece</a></li>
+			<li><a href="{{ URL_PREFIX }}/composer/random">Random Composer</a></li>
+			<li><a href="{{ URL_PREFIX }}/arranger/random">Random Arranger</a></li>
 			</ul>
 		</li>
 		<li>
@@ -81,7 +81,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		<ul>
 			{% block footer-menu %}
 			<li class="active"><a href="/">Homepage</a></li>
-			<li><a href="/admin">Admin</a></li>
+			<li><a href="{{ URL_PREFIX }}/admin">Admin</a></li>
 			<li><a href="http://lincolnyouthsymphony.googlepages.com">Lincoln Youth Symphony</a></li>
 			{% endblock %}
 		</ul>

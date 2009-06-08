@@ -31,6 +31,8 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
+URL_PREFIX = '/symphony'
+
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -42,7 +44,7 @@ MEDIA_ROOT = '/opt/django/symphony/media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/symphony/media/'
+MEDIA_URL = URL_PREFIX+'/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
