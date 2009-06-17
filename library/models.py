@@ -86,7 +86,7 @@ class CabinetGroup(models.Model):
 		return ('library.views.group_list', (), {'group_name': self.shortname})
 	
 	def get_edit_url(self):
-		return '%s/admin/library/cabinetgroup/%d/' % self.id
+		return '%s/admin/library/cabinetgroup/%d/' % (URL_PREFIX, self.id)
 
 class Cabinet(models.Model):
 	number = models.IntegerField('Cabinet ID Number')
@@ -106,7 +106,7 @@ class Cabinet(models.Model):
 		})
 	
 	def get_edit_url(self):
-		return '%s/admin/library/cabinet/%d/' % self.id
+		return '%s/admin/library/cabinet/%d/' % (URL_PREFIX, self.id)
 	
 class Drawer(models.Model):
 	cabinet = models.ForeignKey('Cabinet')
@@ -127,7 +127,7 @@ class Drawer(models.Model):
 		})
 	
 	def get_edit_url(self):
-		return '%s/admin/library/drawer/%d/' % self.id
+		return '%s/admin/library/drawer/%d/' % (URL_PREFIX, self.id)
 
 class Orchestra(models.Model):
 	shortname = models.CharField('Short Name', max_length=5, unique=True)
@@ -150,4 +150,4 @@ class Performance(models.Model):
 		return ('performance_detail', (), { 'object_id': self.id })
 	
 	def get_edit_url(self):
-		return '%s/admin/library/performance/%d/' % self.id
+		return '%s/admin/library/performance/%d/' % (URL_PREFIX, self.id)
