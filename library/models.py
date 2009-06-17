@@ -1,4 +1,5 @@
 from django.db import models
+from settings import URL_PREFIX
 
 class Composer(models.Model):
 	first_name = models.CharField('First Name', max_length=32)
@@ -12,7 +13,7 @@ class Composer(models.Model):
 		return ('library.views.composer_list', [str(self.id)])
 	
 	def get_edit_url(self):
-		return '/admin/library/composer/%d/' % self.id
+		return '%s/admin/library/composer/%d/' % (URL_PREFIX, self.id)
 	
 	class Meta:
 		ordering = ['last_name']
