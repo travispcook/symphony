@@ -2,6 +2,7 @@
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+DEVELOPMENT = False
 
 ADMINS = (
      ('Joshua Gardner', 'josh@cellofellow.homelinux.net'),
