@@ -1,4 +1,5 @@
 from django.db import models
+from settings import URL_PREFIX
 
 class Composer(models.Model):
 	first_name = models.CharField('First Name', max_length=32)
@@ -12,7 +13,7 @@ class Composer(models.Model):
 		return ('library.views.composer_list', [str(self.id)])
 	
 	def get_edit_url(self):
-		return '/admin/library/composer/%d/' % self.id
+		return '%s/admin/library/composer/%d/' % (URL_PREFIX, self.id)
 	
 	class Meta:
 		ordering = ['last_name']
@@ -29,7 +30,7 @@ class Arranger(models.Model):
 		return ('library.views.arranger_list', [str(self.id)])
 	
 	def get_edit_url(self):
-		return '/admin/library/arranger/%d/' % self.id
+		return '%s/admin/library/arranger/%d/' % (URL_PREFIX, self.id)
 	
 	class Meta:
 		ordering = ['last_name']
@@ -61,7 +62,7 @@ class Piece(models.Model):
 		return ('piece_detail', (), { 'object_id': self.id })
 	
 	def get_edit_url(self):
-		return '/admin/library/piece/%d/' % self.id
+		return '%s/admin/library/piece/%d/' % (URL_PREFIX, self.id)
 	
 	class Meta:
 		ordering = ['title']
@@ -85,7 +86,7 @@ class CabinetGroup(models.Model):
 		return ('library.views.group_list', (), {'group_name': self.shortname})
 	
 	def get_edit_url(self):
-		return '/admin/library/cabinetgroup/%d/' % self.id
+		return '%s/admin/library/cabinetgroup/%d/' % (URL_PREFIX, self.id)
 
 class Cabinet(models.Model):
 	number = models.IntegerField('Cabinet ID Number')
@@ -105,7 +106,7 @@ class Cabinet(models.Model):
 		})
 	
 	def get_edit_url(self):
-		return '/admin/library/cabinet/%d/' % self.id
+		return '%s/admin/library/cabinet/%d/' % (URL_PREFIX, self.id)
 	
 class Drawer(models.Model):
 	cabinet = models.ForeignKey('Cabinet')
@@ -126,7 +127,7 @@ class Drawer(models.Model):
 		})
 	
 	def get_edit_url(self):
-		return '/admin/library/drawer/%d/' % self.id
+		return '%s/admin/library/drawer/%d/' % (URL_PREFIX, self.id)
 
 class Orchestra(models.Model):
 	shortname = models.CharField('Short Name', max_length=5, unique=True)
@@ -149,4 +150,4 @@ class Performance(models.Model):
 		return ('performance_detail', (), { 'object_id': self.id })
 	
 	def get_edit_url(self):
-		return '/admin/library/performance/%d/' % self.id
+		return '%s/admin/library/performance/%d/' % (URL_PREFIX, self.id)
