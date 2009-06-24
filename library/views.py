@@ -1,10 +1,12 @@
 # Create your views here.
 
 from django.views.generic.list_detail import object_list
+from django.shortcuts import render_to_response
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from library.models import Piece, Composer, Arranger, Performance
-from settings import URL_PREFIX
+from settings import URL_PREFIX, MEDIA_URL
 import random
+from library.modelsearch import *
 
 extra = {'random_list': Piece.objects.order_by('?')[0:5], 'URL_PREFIX': URL_PREFIX}
 
@@ -58,4 +60,23 @@ def performance_nextprev(request, id, nextprev):
 		try: redirect = Performance.objects.filter(id__lt=id).order_by('-pk')[0]
 		except IndexError: return HttpResponseNotFound()
 	return HttpResponseRedirect(redirect.get_absolute_url())
+
+def search_pieces(request):
+	query_string = ''
+	found_entries = None
+	if ('q' in request.GET) and request.GET['q'].strip():
+		query_string = request.GET['q']
+		
+		entry_query = get_query(query_string, ['title', 'subtitle'])
+		
+		found_entries = Piece.objects.filter(entry_query)
+
+	render_dict = {'query_string': query_string, 'object_list': found_entries, 'MEDIA_URL': MEDIA_URL}
+	render_dict.update(extra)
+	
+	return render_to_response(
+		'library/piece_search.html',
+		render_dict,
+#		context_instance=RequestContext(request)
+	)
 
