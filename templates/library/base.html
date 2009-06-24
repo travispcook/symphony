@@ -49,6 +49,15 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<div id="sidebar">
 		<ul>
 		{% block sidebar %}
+		<li id="search">
+			<h2><b class="text1">Search</b></h2>
+			<form method="get" action="{{ URL_PREFIX }}/search/">
+				<fieldset>
+					<input type="text" id="q" name="q" />
+					<input type="submit" id="x" value="Search" />
+				</fieldset>
+			</form>
+		</li>
 		<li>
 			<ul>
 			<h2><strong>Navigation Links</strong></h2>

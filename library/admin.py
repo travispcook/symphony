@@ -1,22 +1,12 @@
-from library.models import\
-	Composer,\
-	Arranger,\
-	Piece,\
-	ScoreType,\
-	CabinetGroup,\
-	Cabinet,\
-	Drawer,\
-	Orchestra,\
-	Performance
-
+import library.models as models
 from django.contrib import admin
 
-admin.site.register(Composer)
-admin.site.register(Arranger)
-admin.site.register(Piece)
-admin.site.register(ScoreType)
-admin.site.register(CabinetGroup)
-admin.site.register(Cabinet)
-admin.site.register(Drawer)
-admin.site.register(Orchestra)
-admin.site.register(Performance)
+admin.site.register(models.Composer)
+admin.site.register(models.Arranger)
+admin.site.register(models.Piece)
+admin.site.register(models.ScoreType)
+admin.site.register(models.CabinetGroup)
+admin.site.register(models.Cabinet)
+admin.site.register(models.Drawer)
+admin.site.register(models.Orchestra)
+admin.site.register(models.Performance)
