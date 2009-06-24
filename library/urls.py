@@ -60,5 +60,6 @@ urlpatterns += patterns('library.views',
 	(r'^piece/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'piece_nextprev'),
 	(r'^performance/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'performance_nextprev'),
 	(r'^(?P<object>(piece|composer|arranger))/random$', 'object_random'),
+	(r'^search/$', 'search_pieces'),
 )
 

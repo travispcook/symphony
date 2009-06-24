@@ -1,0 +1,16 @@
+{% extends "library/piece_list.html" %}
+
+{% block content %}
+
+<h2>{{ query_string }}</h2>
+<hr />
+
+{% if object_list %}
+{{ block.super }}
+{% else %}
+<h2>No results for that search.</h2>
+{% endif %}
+
+{% endblock %}
+
+{% block searchbox %}{{ query_string }}{% endblock %}
