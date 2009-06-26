@@ -51,9 +51,15 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		{% block sidebar %}
 		<li id="search">
 			<h2><b class="text1">Search</b></h2>
-			<form method="get" action="{{ URL_PREFIX }}/search/">
+			<form method="get" action="{{ URL_PREFIX }}/search/title">
 				<fieldset>
-					<input type="text" id="q" name="q" value="{% block searchbox %}Title Keyword{% endblock %}" />
+					<input type="text" id="q" name="q" value="{% block title_searchbox %}Title Keyword{% endblock %}" />
+					<input type="submit" id="x" value="Search" />
+				</fieldset>
+			</form>
+			<form method="get" action="{{ URL_PREFIX }}/search/composer">
+				<fieldset>
+					<input type="text" id="q" name="q" value="{% block composer_searchbox %}Composer Keyword{% endblock %}" />
 					<input type="submit" id="x" value="Search" />
 				</fieldset>
 			</form>

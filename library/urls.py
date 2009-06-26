@@ -10,19 +10,19 @@ extra_context = {
 
 piece_dict = {
 	'queryset': Piece.objects.all(),
-	'paginate_by': 10,
+	'paginate_by': 50,
 	'extra_context': extra_context,
 }
 
 composer_dict = {
 	'queryset': Composer.objects.order_by('last_name'),
-	'paginate_by': 10,
+	'paginate_by': 50,
 	'extra_context': extra_context,
 }
 
 arranger_dict = {
 	'queryset': Arranger.objects.order_by('last_name'),
-	'paginate_by': 10,
+	'paginate_by': 50,
 	'extra_context': extra_context,
 }
 
@@ -33,7 +33,7 @@ piece_detail = {
 
 performance_list = {
 	'queryset': Performance.objects.all(),
-	'paginate_by': 10,
+	'paginate_by': 50,
 	'extra_context': extra_context,
 }
 
@@ -60,6 +60,7 @@ urlpatterns += patterns('library.views',
 	(r'^piece/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'piece_nextprev'),
 	(r'^performance/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'performance_nextprev'),
 	(r'^(?P<object>(piece|composer|arranger))/random$', 'object_random'),
-	(r'^search/$', 'search_pieces'),
+	(r'^search/title$', 'search_pieces'),
+	(r'^search/composer$', 'search_composers'),
 )
 
