@@ -8,7 +8,10 @@
 <h2 class="title">{{ item.title }}</h2>
 <h3>{{ item.subtitle|default:" " }}</h3>
 </div>
-<div class="breadcrumb"><a href="{{ item.drawer.cabinet.group.get_absolute_url }}">{{ item.drawer.cabinet.group.shortname }}</a> &gt;&gt; <a href="{{ item.drawer.cabinet.get_absolute_url }}">{{ item.drawer.cabinet.number }}</a> &gt;&gt; <a href="{{ item.drawer.get_absolute_url }}">{{ item.drawer.number }}</a></div>
+<div class="breadcrumb">
+	<a href="{{ item.drawer.cabinet.group.get_absolute_url }}">{{ item.drawer.cabinet.group.shortname }}</a> &gt;&gt; 
+	<a href="{{ item.drawer.cabinet.get_absolute_url }}">{{ item.drawer.cabinet.number }}</a> &gt;&gt; 
+	<a href="{{ item.drawer.get_absolute_url }}">{{ item.drawer.number }}</a></div>
 <div class="entry">
 	<p>By 
 	{% for composer in item.composer.all %}

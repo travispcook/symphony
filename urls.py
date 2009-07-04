@@ -8,7 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	# Enable Admin
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-	(r'^admin/(.*)', admin.site.root),
+	url(r'^admin/(.*)', admin.site.root, name="admin"),
 
 	# My URLS:
 	(r'^', include('library.urls')),

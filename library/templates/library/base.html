@@ -28,8 +28,8 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<div id="menu">
 		<ul>
 			{% block menu %}
-			<li class="active"><a href="/">Homepage</a></li>
-			<li><a href="{{ URL_PREFIX }}/admin">Admin</a></li>
+			<li class="active"><a href="{% url piece_list %}">Homepage</a></li>
+			<li><a href="{% url admin "" %}">Admin</a></li>
 			<li><a href="http://lincolnyouthsymphony.googlepages.com">Lincoln Youth Symphony</a></li>
 			{% endblock %}
 		</ul>
@@ -51,13 +51,13 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		{% block sidebar %}
 		<li id="search">
 			<h2><b class="text1">Search</b></h2>
-			<form method="get" action="{{ URL_PREFIX }}/search/title">
+			<form method="get" action="{% url search_pieces %}">
 				<fieldset>
 					<input type="text" id="q" name="q" value="{% block title_searchbox %}Title Keyword{% endblock %}" />
 					<input type="submit" id="x" value="Search" />
 				</fieldset>
 			</form>
-			<form method="get" action="{{ URL_PREFIX }}/search/composer">
+			<form method="get" action="{% url search_composers %}">
 				<fieldset>
 					<input type="text" id="q" name="q" value="{% block composer_searchbox %}Composer Keyword{% endblock %}" />
 					<input type="submit" id="x" value="Search" />
@@ -67,19 +67,19 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		<li>
 			<ul>
 			<h2><strong>Navigation Links</strong></h2>
-			<li><a href="{{ URL_PREFIX }}/composer/">List all Composers</a></li>
-			<li><a href="{{ URL_PREFIX }}/arranger/">List all Arrangers</a></li>
-			<li><a href="{{ URL_PREFIX }}/performance/">List all Performances</a></li>
-			<li><a href="{{ URL_PREFIX }}/piece/random">Random Piece</a></li>
-			<li><a href="{{ URL_PREFIX }}/composer/random">Random Composer</a></li>
-			<li><a href="{{ URL_PREFIX }}/arranger/random">Random Arranger</a></li>
+			<li><a href="{% url composer_list %}">List all Composers</a></li>
+			<li><a href="{% url arranger_list %}">List all Arrangers</a></li>
+			<li><a href="{% url performance_list %}">List all Performances</a></li>
+			<li><a href="{% url object_random "piece" %}">Random Piece</a></li>
+			<li><a href="{% url object_random "piece" %}">Random Composer</a></li>
+			<li><a href="{% url object_random "piece" %}">Random Arranger</a></li>
 			</ul>
 		</li>
 		<li>
 			<h2><strong>Random Selection</strong></h2>
 			<ul>
 			{% for piece in random_list %}
-				<li><a href="{{ piece.get_absolute_url }}">{{ piece.title }}</a></li>
+				<li><a href="{% url piece_detail piece.id %}">{{ piece.title }}</a></li>
 			{% endfor %}
 			</ul>
 		</li>
@@ -95,8 +95,8 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<div id="footer-menu">
 		<ul>
 			{% block footer-menu %}
-			<li class="active"><a href="/">Homepage</a></li>
-			<li><a href="{{ URL_PREFIX }}/admin">Admin</a></li>
+			<li class="active"><a href="{% url piece_list %}">Homepage</a></li>
+			<li><a href="{% url admin "" %}">Admin</a></li>
 			<li><a href="http://lincolnyouthsymphony.googlepages.com">Lincoln Youth Symphony</a></li>
 			{% endblock %}
 		</ul>
