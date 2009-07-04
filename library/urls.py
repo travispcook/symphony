@@ -1,11 +1,9 @@
 from django.conf.urls.defaults import *
 
 from library.models import Piece, Composer, Arranger, Performance
-from settings import URL_PREFIX
 random_list = Piece.objects.order_by('?')[0:5]
 extra_context = {
 	'random_list': random_list,
-	'URL_PREFIX': URL_PREFIX
 }
 
 piece_dict = {
@@ -43,24 +41,110 @@ performance_detail = {
 }
 
 urlpatterns = patterns('django.views.generic.list_detail',
-	url(r'^$', 'object_list', piece_dict, name='homepage'),
-	url(r'^piece/(?P<object_id>\d+)/$', 'object_detail', piece_detail, name='piece_detail'),
-	(r'^composer/$', 'object_list', composer_dict),
-	(r'^arranger/$', 'object_list', arranger_dict),
-	(r'^performance/$', 'object_list', performance_list),
-	url(r'^performance/(?P<object_id>\d+)/$', 'object_detail', performance_detail, name='performance_detail'),
+	# URLs for listing. Directly access the list_detail generic views.
+
+	# Homepage. Lists all pieces. Paginated.
+	url(r'^$',
+		'object_list',
+		piece_dict,
+		name='piece_list'
+	),
+	
+	# Shows detailed information on a specific piece.
+	url(r'^piece/(?P<object_id>\d+)/$',
+		'object_detail',
+		piece_detail,
+		name='piece_detail'
+	),
+	
+	# Lists all composers.
+	url(r'^composer/$',
+		'object_list',
+		composer_dict,
+		name='composer_list'
+	),
+
+	# Lists all arrangers.
+	url(r'^arranger/$',
+		'object_list',
+		arranger_dict,
+		name='arranger_list'
+	),
+
+	# List all performances.
+	url(r'^performance/$',
+		'object_list',
+		performance_list,
+		name='performance_list'
+	),
+
+	# Show information on a specific performance.
+	url(r'^performance/(?P<object_id>\d+)/$',
+		'object_detail',
+		performance_detail,
+		name='performance_detail'
+	),
 )
 
 urlpatterns += patterns('library.views',
-	(r'^(?P<group_name>\w{1,5})/$', 'group_list'),
-	(r'^(?P<group_name>\w{1,5})/(?P<cabinet_id>\d+)/$', 'cabinet_list'),
-	(r'^(?P<group_name>\w{1,5})/(?P<cabinet_id>\d+)/(?P<drawer_id>\d+)/$', 'drawer_list'),
-	(r'^composer/(?P<composer_id>\d+)/$', 'composer_list'),
-	(r'^arranger/(?P<arranger_id>\d+)/$', 'arranger_list'),
-	(r'^piece/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'piece_nextprev'),
-	(r'^performance/(?P<id>\d+)/(?P<nextprev>(next|prev))$', 'performance_nextprev'),
-	(r'^(?P<object>(piece|composer|arranger))/random$', 'object_random'),
-	(r'^search/title$', 'search_pieces'),
-	(r'^search/composer$', 'search_composers'),
-)
+	# Some of these URLs wrap the list_detail generic views.
 
+	# List all pieces filed in a specific cabinet group.
+	url(r'^(?P<group_name>\w{1,5})/$',
+		'group_list',
+		name='group_list'
+	),
+
+	# List all pieces filed in a specific cabinet group and cabinet.
+	url(r'^(?P<group_name>\w{1,5})/(?P<cabinet_id>\d+)/$',
+		'cabinet_list',
+		name='cabinet_list'
+	),
+
+	# List all pieces filed in a specific cabinet group, cabinet, and cabinet drawer.
+	url(r'^(?P<group_name>\w{1,5})/(?P<cabinet_id>\d+)/(?P<drawer_id>\d+)/$',
+		'drawer_list',
+		name='drawer_list'
+	),
+
+	# List all pieces by a specific composer.
+	url(r'^composer/(?P<composer_id>\d+)/$',
+		'composer_list',
+		name='composer_piece_list'
+	),
+
+	# List all pieces by a specific arranger.
+	url(r'^arranger/(?P<arranger_id>\d+)/$',
+		'arranger_list',
+		name='arranger_piece_list'
+	),
+	
+	# Go to the next or previous piece by ID number.
+	url(r'^piece/(?P<id>\d+)/(?P<nextprev>(next|prev))$',
+		'piece_nextprev',
+		name='piece_nextprev'
+	),
+
+	# Go to the next or previous performance by date..
+	url(r'^performance/(?P<id>\d+)/(?P<nextprev>(next|prev))$',
+		'performance_nextprev',
+		name="performance_nextprev"
+	),
+	
+	# Select a random object of various kinds.
+	url(r'^(?P<object>(piece|composer|arranger))/random$',
+		'object_random',
+		name='object_random'
+	),
+
+	# Search all pieces by title.
+	url(r'^search/title$',
+		'search_pieces',
+		name='search_pieces'),
+	
+	# Search all composers by name.
+	url(r'^search/composer$',
+		'search_composers',
+		name='search_composers'
+	),
+)
