@@ -1,8 +1,11 @@
 # Django settings for symphony project.
 
+import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-DEVELOPMENT = True
+
+PATH_PREFIX = os.path.dirname(os.path.abspath(__file__))
 
 ADMINS = (
     # ('josh', 'josh@localhost'),
@@ -13,13 +16,11 @@ MANAGERS = ADMINS
 INTERNAL_IPS = ('127.0.0.1',)
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'database.sqlite'             # Or path to database file if using sqlite3.
+DATABASE_NAME = PATH_PREFIX + '/database.sqlite'             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
-PATH_PREFIX = '/home/josh/Projects/SymphonyDatabase/branches/search/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -50,7 +51,7 @@ MEDIA_URL = '/media/'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+ADMIN_MEDIA_PREFIX = MEDIA_URL + '/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1+036!(560c0jhrd4&v-8z2bkb#twx)v%4=0rhjy7++#m5vcs%'

@@ -1,8 +1,11 @@
 # Django settings for symphony project.
 
+import os
+
+PATH_PREFIX = os.path.dirname(os.path.abspath(__file__))
+
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-DEVELOPMENT = False
 
 ADMINS = (
      ('Joshua Gardner', 'josh@cellofellow.homelinux.net'),
@@ -13,7 +16,7 @@ MANAGERS = ADMINS
 INTERNAL_IPS = ('127.0.0.1','192.168.0.2')
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = '/opt/django/symphony/database.sqlite'             # Or path to database file if using sqlite3.
+DATABASE_NAME = PATH_PREFIX + '/database.sqlite'             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -32,25 +35,23 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
-URL_PREFIX = '/symphony'
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/opt/django/symphony/media/'
+MEDIA_ROOT = PATH_PREFIX + '/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = URL_PREFIX+'/media'
+MEDIA_URL = '/symphony/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/symphony/media/admin/'
+ADMIN_MEDIA_PREFIX = MEDIA_URL + '/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1+036!(560c0jhrd4&v-8z2bkb#twx)v%4=0rhjy7++#m5vcs%'
@@ -74,7 +75,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/opt/django/symphony/templates",
+    PATH_PREFIX + "/templates",
 )
 
 INSTALLED_APPS = (
