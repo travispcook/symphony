@@ -55,7 +55,7 @@ class Piece(models.Model):
 	comment = models.TextField('Comment', max_length=1024, blank=True)
 
 	def __unicode__(self):
-		return u"%s" % self.title
+		return u"%d: %s" % (self.id, self.title)
 	
 	@models.permalink
 	def get_absolute_url(self):
