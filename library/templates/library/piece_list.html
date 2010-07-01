@@ -19,6 +19,12 @@
 	{% if not forloop.last %} and {% endif %}
 	{% endfor %}
 	<br />
+	Arranged by
+	{% for arranger in item.arranger.all %}
+	<a href="{{ arranger.get_absolute_url }}">{{ arranger }}</a>
+	{% if not forloop.last %} and {% endif %}
+	{% endfor %}
+	<br />
 	Catalog ID Number: <b>{{ item.id }}</b><br />
 </div>
 <div class="meta"><p class="links"><a href="{{ item.get_absolute_url }}" class="more">View this Item</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ item.get_edit_url }}" class="comments">Edit this Item</a></p></div>
