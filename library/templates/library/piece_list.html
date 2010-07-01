@@ -18,12 +18,14 @@
 	<a href="{{ composer.get_absolute_url }}">{{ composer }}</a>
 	{% if not forloop.last %} and {% endif %}
 	{% endfor %}
+	{% if item.arranger.all %}
 	<br />
 	Arranged by
 	{% for arranger in item.arranger.all %}
 	<a href="{{ arranger.get_absolute_url }}">{{ arranger }}</a>
 	{% if not forloop.last %} and {% endif %}
 	{% endfor %}
+	{% endif %}
 	<br />
 	Catalog ID Number: <b>{{ item.id }}</b><br />
 </div>
