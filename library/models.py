@@ -87,6 +87,9 @@ class CabinetGroup(models.Model):
 	
 	def get_edit_url(self):
 		return reverse('admin', args=['library/cabinetgroup/%d/' % self.id])
+	
+	class Meta:
+		ordering = ['shortname']
 
 class Cabinet(models.Model):
 	number = models.IntegerField('Cabinet ID Number')
@@ -108,6 +111,9 @@ class Cabinet(models.Model):
 	def get_edit_url(self):
 		return reverse('admin', args=['library/cabinet/%d/' % self.id])
 	
+	class Meta:
+		ordering = ['group', 'number']
+	
 class Drawer(models.Model):
 	cabinet = models.ForeignKey('Cabinet')
 	number = models.SmallIntegerField('Drawer Number')
@@ -128,6 +134,9 @@ class Drawer(models.Model):
 	
 	def get_edit_url(self):
 		return reverse('admin', args=['library/drawer/%d/' % self.id])
+	
+	class Meta:
+		ordering = ['cabinet', 'number']
 
 class Orchestra(models.Model):
 	shortname = models.CharField('Short Name', max_length=5, unique=True)
@@ -135,6 +144,9 @@ class Orchestra(models.Model):
 	
 	def __unicode__(self):
 		return u"%s" % self.shortname
+	
+	class Meta:
+		ordering = ['shortname']
 
 class Performance(models.Model):
 	place = models.TextField('Place', max_length=1024)
@@ -143,7 +155,10 @@ class Performance(models.Model):
 	piece = models.ManyToManyField('Piece')
 	
 	def __unicode__(self):
-		return u"%s, %s" % (self.place, self.date)
+		return u"%s: %s: %s" % (
+			self.date,
+			', '.join([ orch.shortname for orch in self.orchestra.all() ]),
+			self.place)
 
 	@models.permalink
 	def get_absolute_url(self):
@@ -151,3 +166,6 @@ class Performance(models.Model):
 	
 	def get_edit_url(self):
 		return reverse('admin', args=['library/performance/%d/' % self.id])
+	
+	class Meta:
+		ordering = ['date']
