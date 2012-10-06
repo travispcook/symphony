@@ -2,10 +2,15 @@
 
 from django.views.generic.list_detail import object_list
 from django.shortcuts import render_to_response
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import get_models
+from django.core import serializers
+import library.models
 from library.models import Piece, Composer, Arranger, Performance
 from settings import MEDIA_URL
 import random
+import gzip
 from library.modelsearch import *
 
 extra = {'random_list': Piece.objects.order_by('?')[0:5]}
@@ -97,3 +102,13 @@ def search_composers(request):
 		render_dict
 	)
 
+@login_required
+def backup(request):
+	objects = []
+	for model in get_models(library.models):
+		objects.extend(model.objects.all())
+	response = HttpResponse(mimetype="application/x-gzip")
+	gzipper = gzip.GzipFile(fileobj = response, mode='wb')
+	json_serializer = serializers.get_serializer('json')()
+	json_serializer.serialize(objects, stream=gzipper)	
+	return response

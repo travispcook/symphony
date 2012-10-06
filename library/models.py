@@ -46,7 +46,7 @@ DIFFICULTY_CHOICES = (
 class Piece(models.Model):
 	id = models.IntegerField('Catalog ID Number', primary_key=True)
 	drawer = models.ForeignKey('Drawer')
-	title = models.CharField('Title', max_length=64)
+	title = models.CharField('Title', max_length=256)
 	subtitle = models.CharField('Subtitle (Optional)', max_length=128, blank=True)
 	composer = models.ManyToManyField('Composer')
 	arranger = models.ManyToManyField('Arranger', blank=True, null=True)

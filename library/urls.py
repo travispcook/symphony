@@ -147,4 +147,13 @@ urlpatterns += patterns('library.views',
 		'search_composers',
 		name='search_composers'
 	),
+	
+	url(r'^lys-backup.json.gz$',
+		'backup',
+		name='backup'
+	),
+)
+
+urlpatterns += patterns('',
+	(r'^accounts/login/$', 'django.contrib.auth.views.login'),
 )
