@@ -8,19 +8,19 @@ extra_context = {
 
 piece_dict = {
 	'queryset': Piece.objects.all(),
-	'paginate_by': 50,
+	'paginate_by': 30,
 	'extra_context': extra_context,
 }
 
 composer_dict = {
 	'queryset': Composer.objects.order_by('last_name'),
-	'paginate_by': 50,
+	'paginate_by': 30,
 	'extra_context': extra_context,
 }
 
 arranger_dict = {
 	'queryset': Arranger.objects.order_by('last_name'),
-	'paginate_by': 50,
+	'paginate_by': 30,
 	'extra_context': extra_context,
 }
 
@@ -31,7 +31,7 @@ piece_detail = {
 
 performance_list = {
 	'queryset': Performance.objects.all(),
-	'paginate_by': 50,
+	'paginate_by': 30,
 	'extra_context': extra_context,
 }
 
@@ -147,6 +147,12 @@ urlpatterns += patterns('library.views',
 		'search_composers',
 		name='search_composers'
 	),
+
+        # Search Filter
+        url(r'^search/$',
+                'search',
+                name='search',
+        ),
 	
 	url(r'^lys-backup.json.gz$',
 		'backup',

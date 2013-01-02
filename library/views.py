@@ -102,6 +102,9 @@ def search_composers(request):
 		render_dict
 	)
 
+def search(request, **kwargs):
+    return
+
 @login_required
 def backup(request):
 	objects = []
