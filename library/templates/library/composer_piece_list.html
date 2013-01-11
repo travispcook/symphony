@@ -1,9 +1,0 @@
-{% extends "library/piece_list.html" %}
-
-{% block title %}{{ block.super}}: {{ composer }}{% endblock %}
-
-{% block content %}
-<h1 style="margin-bottom: -6px;">Composed by {{ composer }}</h1>
-<p style="font-size: 8pt; margin-bottom: 4px; padding-bottom: 1px;"><a href="{{ composer.get_edit_url }}">Edit this Composer</a></p>
-{{ block.super }}
-{% endblock %}
