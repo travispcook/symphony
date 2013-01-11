@@ -50,6 +50,18 @@ class Piece(models.Model):
     def __unicode__(self):
         return u"%d: %s" % (self.id, self.title)
 
+    @property
+    def cabinet(self):
+        return self.drawer.cabinet
+
+    @property
+    def group(self):
+        return self.drawer.cabinet.group
+
+    @property
+    def scoretype(self):
+        return self.score.name
+
     class Meta:
         ordering = ['title']
 
@@ -69,6 +81,14 @@ class CabinetGroup(models.Model):
     def __unicode__(self):
         return u"%s" % self.shortname
 
+    @property
+    def cabinets(self):
+        return self.cabinet_set.all()
+
+    @property
+    def drawers(self):
+        return Drawer.objects.filter(cabinet__in=self.cabinet_set.all())
+
     class Meta:
         ordering = ['shortname']
 
@@ -82,6 +102,10 @@ class Cabinet(models.Model):
 
     def __int__(self):
         return self.number
+
+    @property
+    def drawers(self):
+        return self.drawer_set.all()
 
     class Meta:
         ordering = ['group', 'number']
@@ -99,6 +123,10 @@ class Drawer(models.Model):
 
     class Meta:
         ordering = ['cabinet', 'number']
+    
+    @property
+    def group(self):
+        return self.cabinet.group
 
 
 class Orchestra(models.Model):
