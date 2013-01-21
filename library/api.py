@@ -82,7 +82,6 @@ class ArrangerResource(ModelResource):
 
 class CabinetGroupResource(ModelResource):
     cabinets = fields.ToManyField('library.api.CabinetResource', 'cabinets')
-    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers')
 
     # Custom fields
     location = fields.CharField(readonly=True)
@@ -127,7 +126,8 @@ class DrawerResource(ModelResource):
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
                                      'group')
     cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet')
-    pieces = fields.ToManyField('library.api.PieceResource', 'piece_set')
+    pieces = fields.ToManyField('library.api.PieceResource', 'pieces',
+                                full=True)
 
     # Custom fields
     cabinet_number = fields.IntegerField(readonly=True)
