@@ -10,9 +10,10 @@ class PieceResource(ModelResource):
     # Relationship fields
     composers = fields.ToManyField('library.api.ComposerResource', 'composer')
     drawer = fields.ToOneField('library.api.DrawerResource', 'drawer')
-    cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet')
+    cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet',
+                                readonly=True)
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
-                                     'group')
+                                     'group', readonly=True)
     scoretype = fields.ToOneField('library.api.ScoreTypeResource', 'score')
     
     # Custom fields
@@ -47,8 +48,7 @@ class PieceResource(ModelResource):
             'difficulty': ('exact', 'in'),
             'composers': ALL_WITH_RELATIONS,
             'arrangers': ALL_WITH_RELATIONS,
-            'cabinetgroup': ('exact', 'in'),
-            'cabinet': ('exact', 'in'),
+            'drawer__cabinet': ('exact', 'in'),
             'drawer': ('exact', 'in'),
             'score': ('exact', 'in'),
         }
@@ -99,7 +99,8 @@ class CabinetGroupResource(ModelResource):
 class CabinetResource(ModelResource):
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
                                      'group')
-    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers')
+    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers',
+                                 full=True)
 
     # Custom fields
     group = fields.CharField(readonly=True)
