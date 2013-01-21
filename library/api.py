@@ -86,6 +86,7 @@ class CabinetGroupResource(ModelResource):
 
     # Custom fields
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_location(self, bundle):
         return str(bundle.obj)
@@ -105,6 +106,7 @@ class CabinetResource(ModelResource):
     # Custom fields
     group = fields.CharField(readonly=True)
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_group(self, bundle):
         return bundle.obj.group.shortname
@@ -131,6 +133,7 @@ class DrawerResource(ModelResource):
     cabinet_number = fields.IntegerField(readonly=True)
     group = fields.CharField(readonly=True)
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_cabinet_number(self, bundle):
         return bundle.obj.cabinet.number
