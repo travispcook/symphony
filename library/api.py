@@ -10,9 +10,10 @@ class PieceResource(ModelResource):
     # Relationship fields
     composers = fields.ToManyField('library.api.ComposerResource', 'composer')
     drawer = fields.ToOneField('library.api.DrawerResource', 'drawer')
-    cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet')
+    cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet',
+                                readonly=True)
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
-                                     'group')
+                                     'group', readonly=True)
     scoretype = fields.ToOneField('library.api.ScoreTypeResource', 'score')
     
     # Custom fields
@@ -47,8 +48,7 @@ class PieceResource(ModelResource):
             'difficulty': ('exact', 'in'),
             'composers': ALL_WITH_RELATIONS,
             'arrangers': ALL_WITH_RELATIONS,
-            'cabinetgroup': ('exact', 'in'),
-            'cabinet': ('exact', 'in'),
+            'drawer__cabinet': ('exact', 'in'),
             'drawer': ('exact', 'in'),
             'score': ('exact', 'in'),
         }
@@ -82,10 +82,10 @@ class ArrangerResource(ModelResource):
 
 class CabinetGroupResource(ModelResource):
     cabinets = fields.ToManyField('library.api.CabinetResource', 'cabinets')
-    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers')
 
     # Custom fields
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_location(self, bundle):
         return str(bundle.obj)
@@ -99,11 +99,13 @@ class CabinetGroupResource(ModelResource):
 class CabinetResource(ModelResource):
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
                                      'group')
-    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers')
+    drawers = fields.ToManyField('library.api.DrawerResource', 'drawers',
+                                 full=True)
 
     # Custom fields
     group = fields.CharField(readonly=True)
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_group(self, bundle):
         return bundle.obj.group.shortname
@@ -124,12 +126,14 @@ class DrawerResource(ModelResource):
     cabinetgroup = fields.ToOneField('library.api.CabinetGroupResource',
                                      'group')
     cabinet = fields.ToOneField('library.api.CabinetResource', 'cabinet')
-    pieces = fields.ToManyField('library.api.PieceResource', 'piece_set')
+    pieces = fields.ToManyField('library.api.PieceResource', 'pieces',
+                                full=True)
 
     # Custom fields
     cabinet_number = fields.IntegerField(readonly=True)
     group = fields.CharField(readonly=True)
     location = fields.CharField(readonly=True)
+    total_pieces = fields.IntegerField(attribute='total_pieces', readonly=True)
     
     def dehydrate_cabinet_number(self, bundle):
         return bundle.obj.cabinet.number

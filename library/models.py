@@ -87,7 +87,15 @@ class CabinetGroup(models.Model):
 
     @property
     def drawers(self):
-        return Drawer.objects.filter(cabinet__in=self.cabinet_set.all())
+        return Drawer.objects.filter(cabinet__in=self.cabinets)
+
+    @property
+    def pieces(self):
+        return Piece.objects.filter(drawer__in=self.drawers)
+
+    @property
+    def total_pieces(self):
+        return self.pieces.count();
 
     class Meta:
         ordering = ['shortname']
@@ -107,6 +115,14 @@ class Cabinet(models.Model):
     def drawers(self):
         return self.drawer_set.all()
 
+    @property
+    def pieces(self):
+        return Piece.objects.filter(drawer__in=self.drawers)
+
+    @property
+    def total_pieces(self):
+        return self.pieces.count();
+
     class Meta:
         ordering = ['group', 'number']
 
@@ -125,8 +141,16 @@ class Drawer(models.Model):
         ordering = ['cabinet', 'number']
     
     @property
+    def pieces(self):
+        return self.piece_set.all()
+
+    @property
     def group(self):
         return self.cabinet.group
+
+    @property
+    def total_pieces(self):
+        return self.pieces.count()
 
 
 class Orchestra(models.Model):
