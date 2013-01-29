@@ -18,4 +18,5 @@ v1_api.register(PerformanceResource())
 
 urlpatterns = patterns('',
     url(r'^api/', include(v1_api.urls)),
+    url(r'^$', 'library.views.app_index', name='app'),
 )

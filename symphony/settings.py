@@ -62,6 +62,8 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+BOOTSTRAP_BASE_URL = '/'.join((STATIC_URL, 'bootstrap/'))
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -117,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'bootstrap_toolkit',
     'tastypie',
     'library',
 )
