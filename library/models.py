@@ -1,26 +1,15 @@
 from django.db import models
 
 
-class Composer(models.Model):
-    first_name = models.CharField('First Name', max_length=32)
-    last_name = models.CharField('Last Name', max_length=32)
+class Artist(models.Model):
+    first_name = models.CharField('First Name', max_length=64)
+    last_name = models.CharField('Last Name', max_length=64)
 
     def __unicode__(self):
-        return u"%s, %s" % (self.last_name, self.first_name)
+        return u'{s.last_name}, {s.first_name}'.format(s=self)
 
     class Meta:
-        ordering = ['last_name']
-
-
-class Arranger(models.Model):
-    first_name = models.CharField('First Name', max_length=32)
-    last_name = models.CharField('Last Name', max_length=32)
-
-    def __unicode__(self):
-        return u"%s, %s" % (self.last_name, self.first_name)
-
-    class Meta:
-        ordering = ['last_name']
+        ordering = ('last_name', 'first_name')
 
 
 DIFFICULTY_CHOICES = (
@@ -39,8 +28,10 @@ class Piece(models.Model):
     subtitle = models.CharField('Subtitle (Optional)',
                                 max_length=128,
                                 blank=True)
-    composer = models.ManyToManyField('Composer')
-    arranger = models.ManyToManyField('Arranger', blank=True, null=True)
+    composer = models.ManyToManyField('Artist',
+                                      related_name='pieces_composed')
+    arranger = models.ManyToManyField('Artist', blank=True, null=True,
+                                      related_name='pieces_arranged')
     score = models.ForeignKey('ScoreType', blank=True, null=True)
     difficulty = models.SmallIntegerField('Difficulty Level',
                                           choices=DIFFICULTY_CHOICES,
