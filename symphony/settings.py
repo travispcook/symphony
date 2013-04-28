@@ -121,8 +121,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'rest_framework',
     'bootstrap_toolkit',
-    'tastypie',
+    'south',
     'library',
 )
 
