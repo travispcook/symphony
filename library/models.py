@@ -23,6 +23,7 @@ DIFFICULTY_CHOICES = (
 
 class Piece(models.Model):
     id = models.IntegerField('Catalog ID Number', primary_key=True)
+    container = models.ForeignKey('Container')
     drawer = models.ForeignKey('Drawer')
     title = models.CharField('Title', max_length=256)
     subtitle = models.CharField('Subtitle (Optional)',
@@ -65,6 +66,20 @@ class ScoreType(models.Model):
         return u"%s" % self.name
 
 
+class Container(models.Model):
+    slug = models.SlugField('Slug', max_length=32)
+    name = models.CharField('Name', max_length=256)
+    description = models.TextField('Description', null=True, blank=True)
+    parent = models.ForeignKey('Container', related_name='children',
+                               null=True, blank=True)
+    number = models.PositiveSmallIntegerField('Number', null=True, blank=True)
+
+    def __unicode__(self):
+        if self.parent:
+            return u'{} >> {}'.format(self.parent, self.name)
+        else:
+            return u'{}'.format(self.name)
+
 class CabinetGroup(models.Model):
     shortname = models.CharField('Short Name', max_length=5, unique=True)
     description = models.CharField('Description', max_length=140)
@@ -86,7 +101,7 @@ class CabinetGroup(models.Model):
 
     @property
     def total_pieces(self):
-        return self.pieces.count();
+        return self.pieces.count()
 
     class Meta:
         ordering = ['shortname']
@@ -112,7 +127,7 @@ class Cabinet(models.Model):
 
     @property
     def total_pieces(self):
-        return self.pieces.count();
+        return self.pieces.count()
 
     class Meta:
         ordering = ['group', 'number']
@@ -130,7 +145,7 @@ class Drawer(models.Model):
 
     class Meta:
         ordering = ['cabinet', 'number']
-    
+
     @property
     def pieces(self):
         return self.piece_set.all()
@@ -142,6 +157,7 @@ class Drawer(models.Model):
     @property
     def total_pieces(self):
         return self.pieces.count()
+
 
 
 class Orchestra(models.Model):
