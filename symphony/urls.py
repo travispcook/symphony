@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'foo.views.home', name='home'),
     # url(r'^foo/', include('foo.foo.urls')),
     (r'^', include('library.urls')),
+    (r'^api/', include('library.api_urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
