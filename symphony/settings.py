@@ -1,4 +1,7 @@
 # Django settings for symphony project.
+import os
+
+ROOT_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -105,6 +108,7 @@ ROOT_URLCONF = 'symphony.urls'
 WSGI_APPLICATION = 'symphony.wsgi.application'
 
 TEMPLATE_DIRS = (
+    os.path.join(ROOT_PATH, 'templates')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
