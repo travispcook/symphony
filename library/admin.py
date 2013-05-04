@@ -1,8 +1,7 @@
 import library.models as models
 from django.contrib import admin
 
-admin.site.register(models.Composer)
-admin.site.register(models.Arranger)
+admin.site.register(models.Artist)
 admin.site.register(models.Piece)
 admin.site.register(models.ScoreType)
 admin.site.register(models.CabinetGroup)
