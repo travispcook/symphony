@@ -24,7 +24,6 @@ DIFFICULTY_CHOICES = (
 class Piece(models.Model):
     id = models.IntegerField('Catalog ID Number', primary_key=True)
     container = models.ForeignKey('Container')
-    drawer = models.ForeignKey('Drawer')
     title = models.CharField('Title', max_length=256)
     subtitle = models.CharField('Subtitle (Optional)',
                                 max_length=128,
@@ -41,14 +40,6 @@ class Piece(models.Model):
 
     def __unicode__(self):
         return u"%d: %s" % (self.id, self.title)
-
-    @property
-    def cabinet(self):
-        return self.drawer.cabinet
-
-    @property
-    def group(self):
-        return self.drawer.cabinet.group
 
     @property
     def scoretype(self):
@@ -79,85 +70,6 @@ class Container(models.Model):
             return u'{} >> {}'.format(self.parent, self.name)
         else:
             return u'{}'.format(self.name)
-
-class CabinetGroup(models.Model):
-    shortname = models.CharField('Short Name', max_length=5, unique=True)
-    description = models.CharField('Description', max_length=140)
-
-    def __unicode__(self):
-        return u"%s" % self.shortname
-
-    @property
-    def cabinets(self):
-        return self.cabinet_set.all()
-
-    @property
-    def drawers(self):
-        return Drawer.objects.filter(cabinet__in=self.cabinets)
-
-    @property
-    def pieces(self):
-        return Piece.objects.filter(drawer__in=self.drawers)
-
-    @property
-    def total_pieces(self):
-        return self.pieces.count()
-
-    class Meta:
-        ordering = ['shortname']
-
-
-class Cabinet(models.Model):
-    number = models.IntegerField('Cabinet ID Number')
-    group = models.ForeignKey('CabinetGroup')
-
-    def __unicode__(self):
-        return u"%s >> %s" % (self.group, self.number)
-
-    def __int__(self):
-        return self.number
-
-    @property
-    def drawers(self):
-        return self.drawer_set.all()
-
-    @property
-    def pieces(self):
-        return Piece.objects.filter(drawer__in=self.drawers)
-
-    @property
-    def total_pieces(self):
-        return self.pieces.count()
-
-    class Meta:
-        ordering = ['group', 'number']
-
-
-class Drawer(models.Model):
-    cabinet = models.ForeignKey('Cabinet')
-    number = models.SmallIntegerField('Drawer Number')
-
-    def __unicode__(self):
-        return u"%s >> %s" % (self.cabinet, self.number)
-
-    def __int__(self):
-        return self.number
-
-    class Meta:
-        ordering = ['cabinet', 'number']
-
-    @property
-    def pieces(self):
-        return self.piece_set.all()
-
-    @property
-    def group(self):
-        return self.cabinet.group
-
-    @property
-    def total_pieces(self):
-        return self.pieces.count()
-
 
 
 class Orchestra(models.Model):
