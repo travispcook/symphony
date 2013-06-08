@@ -1,9 +1,0 @@
-{% extends "library/piece_list.html" %}
-
-{% block title %}{{ block.super }}: {% block titlepath %}{{object_list.0.drawer.cabinet.group }}{% endblock %}{% endblock %}
-
-{% block content %}
-<h1 style="margin-bottom: -6px;">{% block path %}{{ object_list.0.drawer.cabinet.group }}{% endblock %}</h1>
-<p style="font-size: 8pt; margin-bottom: 4px; padding-bottom: 1px;"><a href={% block editpath %}"{{ object_list.0.drawer.cabinet.group.get_edit_url }}">Edit this Group{% endblock %}</a></p>
-{{ block.super }}
-{% endblock %}
