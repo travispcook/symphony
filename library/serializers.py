@@ -27,4 +27,3 @@ class OrchestraViewSet(viewsets.ModelViewSet):
     model = Orchestra
 class PerformanceViewSet(viewsets.ModelViewSet):
     model = Performance
-
