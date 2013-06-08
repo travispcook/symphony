@@ -6,6 +6,8 @@ ROOT_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+APPEND_SLASHES = False
+
 ADMINS = (
     ('Josh Gardner', 'josh@localhost'),
 )
@@ -65,7 +67,7 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-BOOTSTRAP_BASE_URL = '/'.join((STATIC_URL, 'bootstrap/'))
+BOOTSTRAP_BASE_URL = STATIC_URL + 'bootstrap/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
