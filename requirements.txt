@@ -10,3 +10,4 @@ django-filter
 djangorestframework
 ipython
 psycopg2
+nose

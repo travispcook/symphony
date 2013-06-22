@@ -12,16 +12,16 @@ class Artist(models.Model):
         ordering = ('last_name', 'first_name')
 
 
-DIFFICULTY_CHOICES = (
-    ('0', 'Unknown'),
-    ('1', 'Beginner'),
-    ('2', 'Intermediate'),
-    ('3', 'Advanced'),
-    ('4', 'Insane'),
-)
-
 
 class Piece(models.Model):
+    DIFFICULTY_CHOICES = (
+        (0, 'Unknown'),
+        (1, 'Beginner'),
+        (2, 'Intermediate'),
+        (3, 'Advanced'),
+        (4, 'Insane'),
+    )
+
     id = models.IntegerField('Catalog ID Number', primary_key=True)
     container = models.ForeignKey('Container')
     title = models.CharField('Title', max_length=256)
