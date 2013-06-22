@@ -9,9 +9,9 @@
 <script src={{ STATIC_URL }}js/controllers.js></script>
 <script src={{ STATIC_URL }}js/directives.js></script>
 <script src={{ STATIC_URL }}js/services.js></script>
-<script>var STATIC_URL = {{ STATIC_URL }};</script>
+<script>var STATIC_URL = "{{ STATIC_URL }}";</script>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-<link href='//fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=PT+Serif+Caption:400,400italic|Spirax' rel='stylesheet' type='text/css'>
 <link rel=stylesheet/less type=text/css href={{ STATIC_URL }}css/styles.less />
 </head>
 <body ng-app="MusicLibrary">
@@ -21,9 +21,8 @@
         <h1>Lincoln Youth Symphony<div>Music Library</div></h1>
     </div>
     <div class="row" ng-controller=PieceList>
-        <div class="piececard span4" ng-repeat="piece in pieces">
+        <div class="span4" ng-repeat="piece in pieces">
             {{ piece.title }}
-            {{ piece.subtitle }}
         </div>
     </div>
 </div>

@@ -3,12 +3,16 @@
 var RestCommon = function (resource) {
     return function (Restangular) {
         this.rest = Restangular.all(resource);
+        this[resource] = [];
+        this.items = this[resource];
 
         this.read = function () {
             var promise =  this.rest.getList();
             var service = this;
             promise.then(function (response) {
-                service[resource] = response;
+                service[resource].length = 0
+                service[resource].push.apply(service[resource], response);
+                service[resource].metadata = response.metadata;
             });
             return promise;
         };
