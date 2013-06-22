@@ -12,7 +12,9 @@ var RestCommon = function (resource) {
             promise.then(function (response) {
                 service[resource].length = 0
                 service[resource].push.apply(service[resource], response);
-                service[resource].metadata = response.metadata;
+                if ('metadata' in response) {
+                    service[resource].metadata = response.metadata;
+                }
             });
             return promise;
         };
