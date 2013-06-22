@@ -1,5 +1,5 @@
 'use strict';
 
-app.controller("PieceList", function ($scope, Pieces) {
-    $scope.pieces = Pieces.items;
+app.controller("PieceList", function ($scope, Library) {
+    $scope.pieces = Library.pieces;
 });
