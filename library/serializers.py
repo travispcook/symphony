@@ -16,14 +16,20 @@ class ArtistSerializer(serializers.HyperlinkedModelSerializer):
 # using the implicit model style is not as good as explicit, but we're just 
 # getting the app up and running right now.
 class ArtistViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = Artist
 class PieceViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = Piece
 class ScoreTypeViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = ScoreType
 class ContainerViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = Container
 class OrchestraViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = Orchestra
 class PerformanceViewSet(viewsets.ModelViewSet):
+    paginate_by = None
     model = Performance
