@@ -3,8 +3,6 @@ Markdown
 PyYAML
 South
 Werkzeug
-argparse
-distribute
 django-admin-bootstrapped
 django-bootstrap-toolkit
 django-extensions
@@ -12,5 +10,3 @@ django-filter
 djangorestframework
 ipython
 psycopg2
-six
-wsgiref
