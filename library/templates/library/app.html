@@ -5,22 +5,22 @@
     <div class="row page-header">
         <h1>Lincoln Youth Symphony Music Library</h1>
     </div>
-    <div class="row columns" ng-controller=PieceList>
+    <div class="row columns" ng-controller=PieceList ng-cloak>
         <div ng-repeat="piece in pieces" class="span4">
             <div class="piececard">
                 <h3>{{ piece.title }}</h3>
                 <h4>{{ piece.subtitle }}</h4>
                 <p>Composers</p>
                 <ul>
-                    <li ng-repeat="composer in piece.composer">{{ composer }}</li>
+                    <li ng-repeat="composer in piece.composer">{{ composer.first_name }} {{ composer.last_name }}</li>
                 </ul>
                 <div ng-show="piece.arranger">
                     <p>Arrangers</p>
                     <ul>
-                        <li ng-repeat="arranger in piece.arranger">{{ arranger }}</li>
+                        <li ng-repeat="arranger in piece.arranger">{{ arranger.first_name }} {{ arranger.last_name }}</li>
                     </ul>
                 </div>
-                <p ng-show="piece.score">Score: {{ piece.score }}</p>
+                <p ng-show="piece.score">Score: {{ piece.score.name }}</p>
                 <p ng-show="piece.difficulty">Difficulty: {{ piece.difficulty }}</p>
                 <p ng-show="piece.comment">{{ piece.comment }}</p>
             </div>
