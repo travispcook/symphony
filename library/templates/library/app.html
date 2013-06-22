@@ -11,9 +11,9 @@
     <script src={{ STATIC_URL }}js/directives.js></script>
     <script src={{ STATIC_URL }}js/services.js></script>
     <script>
-    var STATIC_URL = {{ STATIC_URL }};
+    var STATIC_URL = "{{ STATIC_URL }}";
     </script>
-    <link href='//fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=PT+Serif+Caption:400,400italic|Spirax' rel='stylesheet' type='text/css'>
     {% bootstrap_stylesheet_tag %}
     {% bootstrap_javascript_tag 'all' %}
     <link rel=stylesheet/less type=text/css href={{ STATIC_URL }}css/styles.less />
