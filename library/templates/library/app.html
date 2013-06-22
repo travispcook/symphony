@@ -4,8 +4,8 @@
   <head>
     <script src=//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js></script>
     <script src=//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-resource.min.js></script>
-    <script src=//raw.github.com/mgonto/restangular/master/dist/restangular.min.js></script>
     <script src=//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.1/lodash.min.js></script>
+    <script src={{ STATIC_URL }}js/restangular.min.js></script>
     <script src={{ STATIC_URL }}js/app.js></script>
     <script src={{ STATIC_URL }}js/controllers.js></script>
     <script src={{ STATIC_URL }}js/directives.js></script>
@@ -13,8 +13,7 @@
     <script>
     var STATIC_URL = {{ STATIC_URL }};
     </script>
-    <link href='http://fonts.googleapis.com/css?family=Spirax'
-          rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
     {% bootstrap_stylesheet_tag %}
     {% bootstrap_javascript_tag 'all' %}
     <link rel=stylesheet/less type=text/css href={{ STATIC_URL }}css/styles.less />
