@@ -1,57 +1,60 @@
 'use strict';
 
-var RestCommon = function (Restangular, resource) {
-    var service = {};
-    service.rest = Restangular.all(resource);
-    service[resource] = [];
+app.factory('RestCommon', ['Restangular', function (Restangular) {
 
-    service.read = function () {
-        var promise =  this.rest.getList();
-        promise.then(function (response) {
-            service[resource].length = 0
-            service[resource].push.apply(service[resource], response);
-            if ('metadata' in response) {
-                service[resource].metadata = response.metadata;
+    return function(resource){
+        var service = {};
+        service.rest = Restangular.all(resource);
+        service[resource] = [];
+
+        service.read = function () {
+            var promise =  this.rest.getList();
+            promise.then(function (response) {
+                service[resource].length = 0
+                service[resource].push.apply(service[resource], response);
+                if ('metadata' in response) {
+                    service[resource].metadata = response.metadata;
+                }
+            });
+            return promise;
+        };
+
+        service.post = function (data) {
+            var promise = this.rest.post(data);
+            return promise.then(function (newItem) {
+                service[resource].push(newItem);
+                return newItem;
+            });
+        };
+
+        service.put = function (item, data) {
+            $.extend(item, data);
+            return item.put();
+        };
+
+        service.delete = function (item) {
+            var resource = this[resource];
+            for (var i = 0; i < resource.length; i++) {
+                if (resource[i] == item) {
+                    var promise = item.remove();
+                    resource.splice(i, 1);
+                    return promise
+                }
             }
-        });
-        return promise;
+        };
+
+        return service;
     };
+}]);
 
-    service.post = function (data) {
-        var promise = this.rest.post(data);
-        return promise.then(function (newItem) {
-            service[resource].push(newItem);
-            return newItem;
-        });
-    };
-
-    service.put = function (item, data) {
-        $.extend(item, data);
-        return item.put();
-    };
-
-    service.delete = function (item) {
-        var resource = this[resource];
-        for (var i = 0; i < resource.length; i++) {
-            if (resource[i] == item) {
-                var promise = item.remove();
-                resource.splice(i, 1);
-                return promise
-            }
-        }
-    };
-
-    return service;
-};
-
-app.service('Library', function (Restangular) {
+app.service('Library', function (RestCommon) {
     var library = this;
-    this.Artists = RestCommon(Restangular, 'artist');
-    this.Pieces = RestCommon(Restangular, 'piece');
-    this.ScoreTypes = RestCommon(Restangular, 'scoretype');
-    this.Containers = RestCommon(Restangular, 'container');
-    this.Orchestras = RestCommon(Restangular, 'orchestra');
-    this.Performances = RestCommon(Restangular, 'performance');
+    this.Artists = RestCommon('artist');
+    this.Pieces = RestCommon('piece');
+    this.ScoreTypes = RestCommon('scoretype');
+    this.Containers = RestCommon('container');
+    this.Orchestras = RestCommon('orchestra');
+    this.Performances = RestCommon('performance');
 
     this.artists = [];
     this.pieces = [];
