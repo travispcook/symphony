@@ -1,13 +1,10 @@
-Django
+Django>=1.5.4
 Markdown
 PyYAML
 South
-Werkzeug
 django-admin-bootstrapped
-django-bootstrap-toolkit
 django-extensions
 django-filter
 djangorestframework
-ipython
 psycopg2
-nose
+django_bower

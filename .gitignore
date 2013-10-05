@@ -1,3 +1,7 @@
 *.pyc
 *.swp
+*.swo
+*~
+*.bak
 database.sqlite
+bower_components
