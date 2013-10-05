@@ -15,7 +15,6 @@ class Artist(models.Model):
 
 class Piece(models.Model):
     DIFFICULTY_CHOICES = (
-        (0, 'Unknown'),
         (1, 'Beginner'),
         (2, 'Intermediate'),
         (3, 'Advanced'),
@@ -23,19 +22,22 @@ class Piece(models.Model):
     )
 
     id = models.IntegerField('Catalog ID Number', primary_key=True)
-    container = models.ForeignKey('Container')
+    container = models.ForeignKey('Container', verbose_name='Container')
     title = models.CharField('Title', max_length=256)
     subtitle = models.CharField('Subtitle (Optional)',
                                 max_length=128,
                                 blank=True)
     composers = models.ManyToManyField('Artist',
+                                       verbose_name='Artists (Composer)',
                                        db_table='library_piece_composer',
                                        related_name='pieces_composed')
     arrangers = models.ManyToManyField('Artist',
+                                       verbose_name='Artists (Arranger)',
                                        db_table='library_piece_arranger',
                                        blank=True, null=True,
                                        related_name='pieces_arranged')
-    score = models.ForeignKey('ScoreType', blank=True, null=True)
+    score = models.ForeignKey('ScoreType', verbose_name='Type of Score',
+                              blank=True, null=True)
     difficulty = models.SmallIntegerField('Difficulty Level',
                                           choices=DIFFICULTY_CHOICES,
                                           blank=True, null=True)
@@ -47,6 +49,10 @@ class Piece(models.Model):
     @property
     def scoretype(self):
         return self.score.name
+
+    @property
+    def path(self):
+        return unicode(self.container)
 
     class Meta:
         ordering = ['title']
@@ -87,10 +93,14 @@ class Orchestra(models.Model):
 
 
 class Performance(models.Model):
-    place = models.TextField('Place', max_length=1024)
+    place = models.TextField('Place')
     date = models.DateField('Date')
-    orchestra = models.ManyToManyField('Orchestra')
-    piece = models.ManyToManyField('Piece')
+    orchestras = models.ManyToManyField(
+        'Orchestra', verbose_name='Orchestras',
+        db_table='library_performance_orchestra')
+    pieces = models.ManyToManyField(
+        'Piece', verbose_name='Pieces', db_table='library_performance_piece')
+    comments = models.TextField('Comments')
 
     def __unicode__(self):
         return u"%s: %s: %s" % (
