@@ -1,6 +1,8 @@
 'use strict';
 
-app.factory('RestCommon', ['Restangular', function (Restangular) {
+angular.module("MusicLibrary")
+
+.factory('RestCommon', ['Restangular', function (Restangular) {
 
     return function(resource){
         var service = {};
@@ -45,9 +47,9 @@ app.factory('RestCommon', ['Restangular', function (Restangular) {
 
         return service;
     };
-}]);
+}])
 
-app.service('Library', function (RestCommon) {
+.service('Library', ['RestCommon', function (RestCommon) {
     var library = this;
     this.Artists = RestCommon('artist');
     this.Pieces = RestCommon('piece');
@@ -148,4 +150,4 @@ app.service('Library', function (RestCommon) {
             library.getPieces();
         });
     });
-});
+}]);
