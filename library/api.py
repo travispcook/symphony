@@ -16,13 +16,11 @@ class ArtistSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('first_name', 'last_name',)
 
 
-# Using the implicit model style is not as good as explicit, but we're just
-# getting the app up and running right now.
 class IntegerChoicesField(serializers.WritableField):
     """
-    write and read strings, but translate into integers internally
+    Write and read strings, but translate into integers internally.
 
-    accepts a choices tuple of ((int, string)+) to use for translation
+    Accepts a choices tuple of ((int, string), ...) to use for translation.
     """
 
     def __init__(self, *args, **kwargs):

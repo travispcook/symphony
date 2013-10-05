@@ -28,10 +28,13 @@ class Piece(models.Model):
     subtitle = models.CharField('Subtitle (Optional)',
                                 max_length=128,
                                 blank=True)
-    composer = models.ManyToManyField('Artist',
-                                      related_name='pieces_composed')
-    arranger = models.ManyToManyField('Artist', blank=True, null=True,
-                                      related_name='pieces_arranged')
+    composers = models.ManyToManyField('Artist',
+                                       db_table='library_piece_composer',
+                                       related_name='pieces_composed')
+    arrangers = models.ManyToManyField('Artist',
+                                       db_table='library_piece_arranger',
+                                       blank=True, null=True,
+                                       related_name='pieces_arranged')
     score = models.ForeignKey('ScoreType', blank=True, null=True)
     difficulty = models.SmallIntegerField('Difficulty Level',
                                           choices=DIFFICULTY_CHOICES,
