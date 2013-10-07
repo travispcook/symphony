@@ -99,7 +99,7 @@ class PieceViewSet(viewsets.ModelViewSet):
     def metadata(self, request):
         data = super(PieceViewSet, self).metadata(request)
         data['actions']['POST']['difficulty']['choices'] = \
-            [choice[1] for choice in Piece.DIFFICULTY_CHOICES]
+            dict(Piece.DIFFICULTY_CHOICES)
 
         data['actions']['GET'] = {'search': 'string'}
         return data

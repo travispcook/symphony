@@ -139,6 +139,7 @@ BOWER_INSTALLED_APPS = (
     'restangular',
     'less',
     'bootstrap#2.3.2',
+    'angular-ui-utils',
 )
 
 # A sample logging configuration. The only tangible logging

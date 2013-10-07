@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("MusicLibrary", ["ui.bootstrap", "restangular"])
+angular.module("MusicLibrary", ["ui.bootstrap", "ui.keypress", "restangular"])
 
 .config(function (RestangularProvider) {
     RestangularProvider.setBaseUrl('/api/');
