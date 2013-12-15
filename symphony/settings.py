@@ -134,10 +134,9 @@ INSTALLED_APPS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'angular#1.2.0-rc.2',
+    'angular',
     'angular-bootstrap',
     'restangular',
-    'less',
     'bootstrap#2.3.2',
     'angular-ui-utils',
 )
