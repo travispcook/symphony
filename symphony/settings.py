@@ -134,11 +134,13 @@ INSTALLED_APPS = (
 )
 
 BOWER_INSTALLED_APPS = (
-    'angular',
-    'angular-bootstrap',
-    'restangular',
+    'lodash#2.4.1',
+    'angular-bootstrap#0.7.0',
     'bootstrap#2.3.2',
-    'angular-ui-utils',
+    'jquery#2.0.3',
+    'angular-ui-utils#0.0.4',
+    'restangular#1.2.1',
+    'angular#1.2.6-build.1989+sha.b0474cb'
 )
 
 # A sample logging configuration. The only tangible logging
