@@ -1,8 +1,0 @@
-Django
-Markdown
-South
-django-admin-bootstrapped
-django-extensions
-django-filter
-djangorestframework
-django_bower
