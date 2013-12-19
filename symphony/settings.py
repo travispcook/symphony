@@ -16,14 +16,16 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', 
-        'NAME': os.path.join(ROOT_PATH, 'database.sqlite'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'symphony',
+        'USER': 'symphony',
+        'PASSWORD': '~!EWPuu@6l:xzizR;;^s',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
+
+AUTOCOMMIT = False
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

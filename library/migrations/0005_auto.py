@@ -10,15 +10,11 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         db.rename_table('library_piece_composer_new', 'library_piece_composer')
         db.rename_table('library_piece_arranger_new', 'library_piece_arranger')
-        db.rename_column('library_piece', 'composer_new', 'composer')
-        db.rename_column('library_piece', 'arranger_new', 'arranger')
 
 
     def backwards(self, orm):
         db.rename_table('library_piece_composer', 'library_piece_composer_new')
         db.rename_table('library_piece_arranger', 'library_piece_arranger_new')
-        db.rename_column('library_piece', 'composer', 'composer_new')
-        db.rename_column('library_piece', 'arranger', 'arranger_new')
 
 
     models = {
