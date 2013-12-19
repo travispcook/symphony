@@ -4,6 +4,7 @@ MAINTAINER "Joshua Gardner <mellowcellofellow@gmail.com>"
 
 RUN pacman -Syu --noconfirm python2 python2-pip nodejs git nginx postgresql \
         openssh supervisor sudo base-devel && \
+    pacman -Scc --noconfirm && \
     ln -s /usr/bin/python2 /usr/bin/python && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 RUN npm install -g bower && \
