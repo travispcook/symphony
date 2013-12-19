@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Piece.container'
         db.add_column(u'library_piece', 'container',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['library.Container']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['library.Container']),
                       keep_default=False)
 
 
