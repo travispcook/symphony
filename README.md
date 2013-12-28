@@ -9,12 +9,26 @@ It's all the same data the whole way through, too.
 
 ## Setup and Installation
 
-It uses docker.io. Install it on a modern Linux system, then build the
-Dockerfile or pull cellofellow/symphony. Then run the `setup.sh` script in the
-docker container to initialize the database and SSH keys.
+It uses docker.io. Install it on a modern Linux system, and also install the
+Python client library for Docker. `sudo pip install docker-py`. Then the
+`runme` Python script can be used for setting up the image and running it.
 
-    docker run -i -t -v /this/path:/opt/symphony cellofellow/symphony /bin/bash /opt/symphony/setup.sh
+To pull image from the index (fastest):
+
+    ./runme pull
+
+To build the image from scratch:
+
+    ./runme build
 
 Then just run the container and hack away:
 
-    docker run -i -t -v /this/path:/opt/symphony -p 8000:80 -p 2222:22 -p 54321:5432 cellofellow/symphony
+    ./runme start
+    ./runme browse
+    ./runme ssh
+
+This will start the container, open a browser loading the container's IP
+address, and open an SSH shell into that IP address. Hack away in this
+directory on the host machine, and the UWSGI in the container is set to auto-
+reload any changes. You can also access this directory inside the container at
+`/opt/symphony`. Go there if you need to run any management commands.

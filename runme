@@ -71,8 +71,7 @@ def remove():
     c.remove_container('symphony')
 
 
-def build():
-    c.build(os.path.join(os.getcwd(), 'docker'), tag='cellofellow/symphony')
+def setup():
     subprocess.call(['docker', 'run', '-i', '-t', '-u', 'root',
                      '-name', 'symphony_setup',
                      '-v', os.getcwd() + ':/opt/symphony',
@@ -81,12 +80,24 @@ def build():
     c.remove_container('symphony_setup')
 
 
+
+def build():
+    c.build(os.path.join(os.getcwd(), 'docker'), tag='cellofellow/symphony')
+    setup()
+
+
+def pull():
+    c.pull('cellofellow/symphony')
+    setup()
+
+
 def main():
     commands = {
         'start': start,
         'ssh': ssh,
         'stop': stop,
         'build': build,
+        'pull': pull,
         'remove': remove,
         'browse': browse,
     }
