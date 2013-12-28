@@ -7,3 +7,4 @@ database.sqlite
 bower_components/
 static/
 .vagrant/
+.state

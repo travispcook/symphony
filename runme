@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+
+import os
+import shelve
+import subprocess
+import sys
+
+import docker
+
+c = docker.Client()
+
+
+def check_running():
+    return '/symphony' in sum([_['Names'] for _ in c.containers()], [])
+
+
+def start(detach=True):
+    try:
+        c.create_container(
+            'cellofellow/symphony', detach=detach, name='symphony')
+        print 'Creating...'
+    except docker.APIError as e:
+        if not e.explanation.startswith('create: Conflict'):
+            raise
+        print 'Already created...'
+    if not check_running():
+        print 'Starting...'
+        c.start('symphony', binds={os.getcwd(): '/opt/symphony'})
+    else:
+        print 'Already running...'
+    inspect = c.inspect_container('symphony')
+    ip_address = inspect["NetworkSettings"]["IPAddress"]
+    s = shelve.open('.state')
+    s['ip address'] = ip_address
+    s.close()
+    print ip_address
+
+
+def ssh():
+    if not check_running():
+        print 'Not running.'
+        return
+    s = shelve.open('.state')
+    ip_address = s.get('ip address', None)
+    s.close()
+    subprocess.call(['/usr/bin/ssh', ip_address, '-l', 'developer', '-i',
+                     os.path.join(os.getcwd(), 'system', 'home', '.ssh',
+                                  'id_ecdsa')])
+
+
+def stop():
+    c.stop('symphony')
+
+
+def remove():
+    c.remove_container('symphony')
+
+
+def build():
+    c.build(os.path.join(os.getcwd(), 'docker'), tag='cellofellow/symphony')
+    subprocess.call(['docker', 'run', '-i', '-t', '-u', 'root',
+                     '-name', 'symphony_setup',
+                     '-v', os.getcwd() + ':/opt/symphony',
+                     'cellofellow/symphony',
+                     '/bin/bash', '/opt/symphony/setup.sh'])
+    c.remove_container('symphony_setup')
+
+
+def main():
+    commands = {
+        'start': start,
+        'ssh': ssh,
+        'stop': stop,
+        'build': build,
+        'remove': remove,
+    }
+    cmd = sys.argv[1]
+    cmd = commands.get(cmd, None)
+    if not cmd or not callable(cmd):
+        print "Command not found."
+        return
+    cmd()
+
+
+if __name__ == '__main__':
+    main()
