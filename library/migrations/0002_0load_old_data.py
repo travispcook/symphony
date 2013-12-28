@@ -3,49 +3,21 @@ import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
+from dingus import patch
 
 
 class Migration(SchemaMigration):
 
-    depends_on = (
-        ('library', '0002_0load_old_data'),
-    )
-
     def forwards(self, orm):
-        # Adding model 'Artist'
-        db.create_table(u'library_artist', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal(u'library', ['Artist'])
+        db.execute("TRUNCATE TABLE django_content_type CASCADE")
+        _get_model = lambda model_identifier: orm[model_identifier]
 
-        # Adding M2M table for field composer_new on 'Piece'
-        db.create_table(u'library_piece_composer_new', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('piece', models.ForeignKey(orm[u'library.piece'], null=False)),
-            ('artist', models.ForeignKey(orm[u'library.artist'], null=False))
-        ))
-        db.create_unique(u'library_piece_composer_new', ['piece_id', 'artist_id'])
-
-        # Adding M2M table for field arranger_new on 'Piece'
-        db.create_table(u'library_piece_arranger_new', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('piece', models.ForeignKey(orm[u'library.piece'], null=False)),
-            ('artist', models.ForeignKey(orm[u'library.artist'], null=False))
-        ))
-        db.create_unique(u'library_piece_arranger_new', ['piece_id', 'artist_id'])
-
+        with patch('django.core.serializers.python._get_model', _get_model):
+            from django.core.management import call_command
+            call_command("loaddata", "olddata")
 
     def backwards(self, orm):
-        # Deleting model 'Artist'
-        db.delete_table(u'library_artist')
-
-        # Removing M2M table for field composer_new on 'Piece'
-        db.delete_table('library_piece_composer_new')
-
-        # Removing M2M table for field arranger_new on 'Piece'
-        db.delete_table('library_piece_arranger_new')
+        pass
 
 
     models = {

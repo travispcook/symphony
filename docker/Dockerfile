@@ -13,7 +13,7 @@ RUN npm install -g bower && \
     usermod -p '' developer
 RUN pip2 install Django Markdown South django-admin-bootstrapped uwsgi \
         django-extensions django-filter djangorestframework django_bower \
-        psycopg2 ipython
+        psycopg2 ipython dingus
 ADD sshd_config /etc/ssh/sshd_config
 EXPOSE 80 5432 22
 VOLUME /opt/symphony
