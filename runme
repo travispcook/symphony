@@ -43,9 +43,24 @@ def ssh():
     s = shelve.open('.state')
     ip_address = s.get('ip address', None)
     s.close()
+    if not ip_address:
+        print 'Could not get IP.'
+        return
     subprocess.call(['/usr/bin/ssh', ip_address, '-l', 'developer', '-i',
                      os.path.join(os.getcwd(), 'system', 'home', '.ssh',
                                   'id_ecdsa')])
+
+def browse():
+    if not check_running():
+        print 'Not running.'
+        return
+    s = shelve.open('.state')
+    ip_address = s.get('ip address', None)
+    s.close()
+    if not ip_address:
+        print 'Could not get IP.'
+        return
+    subprocess.call(['xdg-open', 'http://{}/'.format(ip_address)])
 
 
 def stop():
@@ -73,6 +88,7 @@ def main():
         'stop': stop,
         'build': build,
         'remove': remove,
+        'browse': browse,
     }
     cmd = sys.argv[1]
     cmd = commands.get(cmd, None)
