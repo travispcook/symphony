@@ -9,7 +9,7 @@ RUN pacman -Syu --noconfirm python2 python2-pip nodejs git nginx postgresql \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 RUN npm install -g bower less coffee-script && \
     (( uid = $UID == 0 : 1000 : $UID )) && \
-    useradd -m -g users -G http,wheel -s /bin/bash -u $UID developer && \
+    useradd -m -g users -G http,wheel -s /bin/bash -u $uid developer && \
     usermod -p '' developer
 RUN git clone --recursive https://github.com/polydawn/siphon-cli.git && \
     pushd siphon-cli && \
