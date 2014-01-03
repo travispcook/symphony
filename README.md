@@ -25,10 +25,10 @@ Then just run the container and hack away:
 
     ./runme start
     ./runme browse
-    ./runme ssh
+    ./runme shell
 
 This will start the container, open a browser loading the container's IP
-address, and open an SSH shell into that IP address. Hack away in this
+address, and open an shell in the container user Siphon. Hack away in this
 directory on the host machine, and the UWSGI in the container is set to auto-
 reload any changes. You can also access this directory inside the container at
 `/opt/symphony`. Go there if you need to run any management commands.

@@ -36,19 +36,19 @@ def start(detach=True):
     print ip_address
 
 
-def ssh():
-    if not check_running():
-        print 'Not running.'
-        return
+def shell():
+    container = c.create_container('cellofellow/symphony',
+        command='/usr/bin/siphon attach -L unix:///opt/symphony/system/siphon.sock',
+        tty=True, stdin_open=True)
+    c.start(container['Id'], binds={os.getcwd(): '/opt/symphony'})
     s = shelve.open('.state')
-    ip_address = s.get('ip address', None)
+    siphons = s.get('siphons', [])
+    siphons.append(container['Id'])
+    s['siphons'] = siphons
+    s.sync()
     s.close()
-    if not ip_address:
-        print 'Could not get IP.'
-        return
-    subprocess.call(['/usr/bin/ssh', ip_address, '-l', 'developer', '-i',
-                     os.path.join(os.getcwd(), 'system', 'home', '.ssh',
-                                  'id_ecdsa')])
+    subprocess.call(['docker', 'attach', container['Id']])
+
 
 def browse():
     if not check_running():
@@ -56,6 +56,7 @@ def browse():
         return
     s = shelve.open('.state')
     ip_address = s.get('ip address', None)
+    s.sync()
     s.close()
     if not ip_address:
         print 'Could not get IP.'
@@ -65,10 +66,22 @@ def browse():
 
 def stop():
     c.stop('symphony')
+    os.remove(os.path.join(os.getcwd(), 'system', 'siphon.sock'))
 
 
 def remove():
     c.remove_container('symphony')
+    s = shelve.open('.state')
+    siphons = s.get('siphons', [])
+    for siphon in siphons:
+        try:
+            c.remove_container(siphon)
+        except APIError:
+            pass
+    s['siphons'] = []
+    s.sync()
+    s.close()
+
 
 
 def setup():
@@ -82,7 +95,18 @@ def setup():
 
 
 def build():
-    c.build(os.path.join(os.getcwd(), 'docker'), tag='cellofellow/symphony')
+    import tempfile
+    import shutil
+    tmpdir = tempfile.mkdtemp()
+    shutil.copy(os.path.join(os.getcwdu(), 'docker', 'Dockerfile'), tmpdir)
+    with open(os.path.join(tmpdir, 'Dockerfile'), 'r') as dockerfile:
+        contents = dockerfile.read()
+    uid = raw_input('Enter your UID: ')
+    contents = contents.replace('$UID', uid)
+    with open(os.path.join(tmpdir, 'Dockerfile'), 'w') as dockerfile:
+        dockerfile.write(contents)
+    c.build(tmpdir, tag='cellofellow/symphony')
+    shutil.rmtree(tmpdir)
     setup()
 
 
@@ -94,14 +118,14 @@ def pull():
 def main():
     commands = {
         'start': start,
-        'ssh': ssh,
+        'shell': shell,
         'stop': stop,
         'build': build,
         'pull': pull,
         'remove': remove,
         'browse': browse,
     }
-    cmd = sys.argv[1]
+    cmd = sys.argv[1] if len(sys.argv) else None
     cmd = commands.get(cmd, None)
     if not cmd or not callable(cmd):
         print "Command not found."
