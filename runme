@@ -30,9 +30,6 @@ def start(detach=True):
         print 'Already running...'
     inspect = c.inspect_container('symphony')
     ip_address = inspect["NetworkSettings"]["IPAddress"]
-    s = shelve.open('.state')
-    s['ip address'] = ip_address
-    s.close()
     print ip_address
 
 
@@ -54,10 +51,8 @@ def browse():
     if not check_running():
         print 'Not running.'
         return
-    s = shelve.open('.state')
-    ip_address = s.get('ip address', None)
-    s.sync()
-    s.close()
+    inspect = c.inspect_container('symphony')
+    ip_address = inspect["NetworkSettings"]["IPAddress"]
     if not ip_address:
         print 'Could not get IP.'
         return
@@ -76,7 +71,7 @@ def remove():
     for siphon in siphons:
         try:
             c.remove_container(siphon)
-        except APIError:
+        except docker.APIError:
             pass
     s['siphons'] = []
     s.sync()
