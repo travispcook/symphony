@@ -11,21 +11,21 @@ It's all the same data the whole way through, too.
 
 It uses docker.io. Install it on a modern Linux system, and also install the
 Python client library for Docker. `sudo pip install docker-py`. Then the
-`runme` Python script can be used for setting up the image and running it.
+`run.py` Python script can be used for setting up the image and running it.
 
 To pull image from the index (fastest):
 
-    ./runme pull
+    ./run.py pull
 
 To build the image from scratch:
 
-    ./runme build
+    ./run.py build
 
 Then just run the container and hack away:
 
-    ./runme start
-    ./runme browse
-    ./runme shell
+    ./run.py start
+    ./run.py browse
+    ./run.py shell
 
 This will start the container, open a browser loading the container's IP
 address, and open an shell in the container user Siphon. Hack away in this
