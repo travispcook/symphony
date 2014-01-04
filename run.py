@@ -34,8 +34,10 @@ def start(detach=True):
 
 
 def shell():
-    container = c.create_container('cellofellow/symphony',
-        command='/usr/bin/siphon attach -L unix:///opt/symphony/system/siphon.sock',
+    container = c.create_container(
+        'cellofellow/symphony',
+        command=('/usr/bin/siphon attach -L '
+                 'unix:///opt/symphony/system/siphon.sock'),
         tty=True, stdin_open=True)
     c.start(container['Id'], binds={os.getcwd(): '/opt/symphony'})
     s = shelve.open('.state')
@@ -78,29 +80,30 @@ def remove():
     s.close()
 
 
-
 def setup():
     subprocess.call(['docker', 'run', '-i', '-t', '-u', 'root',
                      '-name', 'symphony_setup',
                      '-v', os.getcwd() + ':/opt/symphony',
                      'cellofellow/symphony',
                      '/bin/bash', '/opt/symphony/setup.sh'])
+    import time
+    time.sleep(1)
     c.remove_container('symphony_setup')
-
 
 
 def build():
     import tempfile
     import shutil
     tmpdir = tempfile.mkdtemp()
-    shutil.copy(os.path.join(os.getcwdu(), 'docker', 'Dockerfile'), tmpdir)
-    with open(os.path.join(tmpdir, 'Dockerfile'), 'r') as dockerfile:
+    with open(os.path.join(os.getcwdu(), 'Dockerfile'), 'r') as dockerfile:
         contents = dockerfile.read()
-    uid = raw_input('Enter your UID: ')
+    uid = str(os.getuid())
     contents = contents.replace('$UID', uid)
     with open(os.path.join(tmpdir, 'Dockerfile'), 'w') as dockerfile:
         dockerfile.write(contents)
-    c.build(tmpdir, tag='cellofellow/symphony')
+    build = c.build(tmpdir, tag='cellofellow/symphony', stream=True)
+    for b in build:
+        print b
     shutil.rmtree(tmpdir)
     setup()
 

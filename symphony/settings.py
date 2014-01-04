@@ -1,7 +1,6 @@
 # Django settings for symphony project.
 import os
-
-ROOT_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -25,7 +24,7 @@ DATABASES = {
     }
 }
 
-AUTOCOMMIT = False
+AUTOCOMMIT = True
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -52,7 +51,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(ROOT_PATH, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -63,28 +62,19 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(ROOT_PATH, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-BOWER_COMPONENTS_ROOT = ROOT_PATH
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -92,9 +82,8 @@ SECRET_KEY = '7a_lk^2r2%187b#(7r%78hbl5iq=_l7_od^h!xts3)o)6f!itq'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,16 +97,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'symphony.urls'
 
-# Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'symphony.wsgi.application'
-
-TEMPLATE_DIRS = (
-    os.path.join(ROOT_PATH, 'templates')
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,21 +108,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_extensions',
+    'compressor',
     'djangobower',
     'rest_framework',
     'south',
     'library',
-)
-
-BOWER_INSTALLED_APPS = (
-    'lodash#2.4.1',
-    'angular-bootstrap#0.7.0',
-    'bootstrap#2.3.2',
-    'jquery#2.0.3',
-    'angular-ui-utils#0.0.4',
-    'restangular#1.2.1',
-    'angular#1.2.6-build.1989+sha.b0474cb'
-    'less',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -178,3 +147,28 @@ LOGGING = {
 REST_FRAMEWORK = {
     'PAGINATE_BY': 10,
 }
+
+# COMPRESS
+COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = (
+    'compressor.filters.datauri.CssDataUriFilter',
+    'compressor.filters.cssmin.CSSMinFilter',
+)
+COMPRESS_JS_FILTERS = (
+    'compressor.filters.jsmin.SlimItFilter',
+)
+COMPRESSOR_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+    ('text/x-coffeescript', 'coffee --compile --stdio'),
+)
+
+# Bower
+BOWER_COMPONENTS_ROOT = BASE_DIR
+BOWER_INSTALLED_APPS = (
+    'lodash',
+    'angular-bootstrap',
+    'jquery',
+    'angular-ui-utils',
+    'restangular',
+    'angular',
+)
