@@ -55,9 +55,8 @@ def browse():
         print 'Not running.'
         return
     s = shelve.open('.state')
-    ip_address = s.get('ip address', None)
-    s.sync()
-    s.close()
+    inspect = c.inspect_container('symphony')
+    ip_address = inspect["NetworkSettings"]["IPAddress"]
     if not ip_address:
         print 'Could not get IP.'
         return
