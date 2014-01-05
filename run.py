@@ -94,6 +94,7 @@ def setup():
 def build():
     import tempfile
     import shutil
+    import sys
     tmpdir = tempfile.mkdtemp()
     with open(os.path.join(os.getcwdu(), 'Dockerfile'), 'r') as dockerfile:
         contents = dockerfile.read()
@@ -103,7 +104,7 @@ def build():
         dockerfile.write(contents)
     build = c.build(tmpdir, tag='cellofellow/symphony', stream=True)
     for b in build:
-        print b
+        sys.stdout.write(b)
     shutil.rmtree(tmpdir)
     setup()
 

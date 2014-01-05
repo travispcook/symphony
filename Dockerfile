@@ -3,7 +3,7 @@ FROM base/arch
 MAINTAINER "Joshua Gardner <mellowcellofellow@gmail.com>"
 
 RUN pacman -Syu --noconfirm python2 python2-pip nodejs git nginx postgresql \
-        supervisor sudo base-devel libxslt && \
+        supervisor sudo base-devel python2-lxml && \
     pacman -Scc --noconfirm && \
     ln -s /usr/bin/python2 /usr/bin/python && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
@@ -22,7 +22,7 @@ RUN pacman -S --noconfirm go && \
 RUN npm install -g bower less coffee-script && \
     pip2 install Django Markdown South django-admin-bootstrapped uwsgi \
         django-extensions django-filter djangorestframework django_bower \
-        psycopg2 ipython dingus django_compressor lxml "BeautifulSoup<4.0" \
+        psycopg2 ipython dingus django_compressor "BeautifulSoup<4.0" \
         cssmin slimit
 EXPOSE 80 5432
 VOLUME /opt/symphony
