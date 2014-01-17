@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import os
 import shelve
@@ -15,6 +15,17 @@ def check_running():
 
 
 def start(detach=True):
+    if 'cellofellow/symphony' not in [i['Repository'] for i in c.images()]:
+        action = raw_input('Image cellofellow/symphony not found. Shall I '
+                           '[p]ull  it or [b]uild it? ')
+        action = action.strip().lower()[0]
+        if action == 'p':
+            subprocess.call(['docker', 'pull', 'cellofellow/symphony'])
+        elif action == 'b':
+            build()
+        else:
+            print 'Unrecognized action. Aborting...'
+            return
     try:
         c.create_container(
             'cellofellow/symphony', detach=detach, name='symphony')
@@ -102,9 +113,10 @@ def build():
     contents = contents.replace('$UID', uid)
     with open(os.path.join(tmpdir, 'Dockerfile'), 'w') as dockerfile:
         dockerfile.write(contents)
-    build = c.build(tmpdir, tag='cellofellow/symphony', stream=True)
-    for b in build:
-        sys.stdout.write(b)
+    #build = c.build(tmpdir, tag='cellofellow/symphony', stream=True)
+    #for b in build:
+    #    sys.stdout.write(b)
+    subprocess.call(['docker', 'build', '-t', 'cellofellow/symphony', tmpdir])
     shutil.rmtree(tmpdir)
     setup()
 
