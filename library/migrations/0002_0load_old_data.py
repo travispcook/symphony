@@ -14,7 +14,7 @@ class Migration(SchemaMigration):
 
         with patch('django.core.serializers.python._get_model', _get_model):
             from django.core.management import call_command
-            call_command("loaddata", "olddata")
+            call_command("loaddata", "olddata.json")
 
     def backwards(self, orm):
         pass

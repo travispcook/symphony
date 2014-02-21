@@ -28,10 +28,11 @@ def start(detach=True):
             return
     try:
         c.create_container(
-            'cellofellow/symphony', detach=detach, name='symphony')
+            'cellofellow/symphony', detach=detach, name='symphony',
+            hostname='symphony')
         print 'Creating...'
     except docker.APIError as e:
-        if not e.explanation.startswith('create: Conflict'):
+        if not 'UNIQUE constraint failed' in e.explanation:
             raise
         print 'Already created...'
     if not check_running():
@@ -113,6 +114,7 @@ def build():
     contents = contents.replace('$UID', uid)
     with open(os.path.join(tmpdir, 'Dockerfile'), 'w') as dockerfile:
         dockerfile.write(contents)
+    shutil.copy(os.path.join(os.getcwdu(), 'requirements.txt'), tmpdir)
     #build = c.build(tmpdir, tag='cellofellow/symphony', stream=True)
     #for b in build:
     #    sys.stdout.write(b)

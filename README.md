@@ -24,11 +24,16 @@ To build the image from scratch:
 Then just run the container and hack away:
 
     ./run.py start
-    ./run.py browse
     ./run.py shell
+    ./setupdb.sh
 
-This will start the container, open a browser loading the container's IP
-address, and open an shell in the container user Siphon. Hack away in this
-directory on the host machine, and the UWSGI in the container is set to auto-
-reload any changes. You can also access this directory inside the container at
-`/opt/symphony`. Go there if you need to run any management commands.
+You can also run the "browse" command to open the site in your browser.
+
+    ./run.py browse
+
+This will start the container, and open an shell in the container user Siphon,
+from which a script to download existing data fixtures and migrating the
+database is run. Now you can hack away in this directory on the host machine,
+and the uWSGI in the container is set to auto-reload any changes. You can also
+access this directory inside the container at `/opt/symphony`. Use `./run.py
+shell` and work from there if you need to run any management commands.

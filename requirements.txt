@@ -1,0 +1,16 @@
+Django
+Markdown
+South
+django-admin-bootstrapped
+uwsgi
+django-extensions
+django-filter
+djangorestframework
+django_bower
+psycopg2
+ipython
+dingus
+django_compressor
+BeautifulSoup<4.0
+cssmin
+slimit

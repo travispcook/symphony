@@ -4,26 +4,32 @@ MAINTAINER "Joshua Gardner <mellowcellofellow@gmail.com>"
 
 RUN pacman -Syu --noconfirm python2 python2-pip nodejs git nginx postgresql \
         supervisor sudo base-devel python2-lxml && \
-    pacman -Scc --noconfirm && \
+    yes y | pacman -Scc && \
     ln -s /usr/bin/python2 /usr/bin/python && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 RUN [ $UID == 0 ] && { uid=1000; true; } || uid=$UID && \
     useradd -m -g users -G http,wheel -s /bin/bash -u $uid developer && \
     usermod -p '' developer
-RUN pacman -S --noconfirm go && \
-    pacman -Scc --noconfirm && \
-    git clone --recursive https://github.com/polydawn/siphon-cli.git && \
-    pushd siphon-cli && \
-    ./go.build.sh && \
-    cp siphon /usr/bin && \
-    popd && \
-    rm -rf siphon-cli || true && \
-    pacman -R --noconfirm go
-RUN npm install -g bower less coffee-script && \
-    pip2 install Django Markdown South django-admin-bootstrapped uwsgi \
-        django-extensions django-filter djangorestframework django_bower \
-        psycopg2 ipython dingus django_compressor "BeautifulSoup<4.0" \
-        cssmin slimit
+## Compile Siphon shell tool.
+#RUN pacman -S --noconfirm go && \
+#    yes y | pacman -Scc && \
+#    git clone --recursive https://github.com/polydawn/siphon-cli.git && \
+#    pushd siphon-cli && \
+#    ./go.build.sh && \
+#    cp siphon /usr/bin && \
+#    popd && \
+#    rm -rf siphon-cli || true && \
+#    pacman -R --noconfirm go
+## Install Siphon shell tool binary.
+ADD https://dl.dropboxusercontent.com/u/853243/siphon /usr/bin/siphon
+RUN chmod 755 /usr/bin/siphon
+RUN npm install -g bower less coffee-script
+ADD requirements.txt /tmp/
+RUN pip2 install -r /tmp/requirements.txt
 EXPOSE 80 5432
 VOLUME /opt/symphony
-CMD /usr/bin/supervisord -c /opt/symphony/system/supervisord.conf
+CMD chmod 755 / && \
+    mkdir /run/postgresql && \
+    chmod 755 /run/postgresql && \
+    chown postgres:postgres /run/postgresql && \
+    /usr/bin/supervisord -c /opt/symphony/system/supervisord.conf
