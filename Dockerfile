@@ -1,13 +1,13 @@
-FROM base/arch
+FROM base/devel:latest
 
 MAINTAINER "Joshua Gardner <mellowcellofellow@gmail.com>"
 
 RUN pacman -Syu --noconfirm python2 python2-pip nodejs git nginx postgresql \
-        supervisor sudo base-devel python2-lxml && \
+        supervisor sudo python2-lxml && \
     yes y | pacman -Scc && \
-    ln -s /usr/bin/python2 /usr/bin/python && \
-    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
-RUN [ $UID == 0 ] && { uid=1000; true; } || uid=$UID && \
+    ln -s /usr/bin/python2 /usr/bin/python
+RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
+    [ $UID == 0 ] && { uid=1000; true; } || uid=$UID && \
     useradd -m -g users -G http,wheel -s /bin/bash -u $uid developer && \
     usermod -p '' developer
 ## Compile Siphon shell tool.
